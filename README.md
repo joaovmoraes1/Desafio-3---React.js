@@ -1,46 +1,60 @@
-# Getting Started with Create React App
+# Desafio 3 - Programa de Bolsas Frontend (React.js) 🚧 **EM ANDAMENTO** 🚧
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este repositório contém a solução para o **Desafio 3** do Programa de Bolsas Frontend, focado em React.js. O objetivo do desafio é avaliar a capacidade de resolução de problemas, utilização de ferramentas e assertividade frente às demandas solicitadas.
 
-## Available Scripts
+**Status do Projeto**: 🚧 **EM ANDAMENTO** 🚧
 
-In the project directory, you can run:
+O projeto ainda está em desenvolvimento e novas funcionalidades estão sendo implementadas. Sinta-se à vontade para acompanhar o progresso!
 
-### `npm start`
+## 📋 Descrição do Projeto
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+O projeto consiste em uma aplicação de e-commerce desenvolvida com React e TypeScript, seguindo um design mobile-first. A aplicação inclui funcionalidades como autenticação de usuário, busca de produtos, carrosséis de produtos, filtragem, detalhes de produtos, e gerenciamento de carrinho de compras.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🚀 Funcionalidades (Em Desenvolvimento)
 
-### `npm test`
+- **Autenticação de Usuário**: 
+  - Implementada com Firebase.
+  - Login com Google.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- **Páginas Principais**:
+  - **Home**: 
+    - Redirecionamento para a página de busca ao clicar no campo de pesquisa.
+    - Carrosséis de produtos com renderização condicional.
+  - **Search**: 
+    - Campo de busca para filtrar produtos por nome.
+    - Exibição dos três produtos mais populares.
+  - **Explore Products**: 
+    - Renderização de todos os produtos disponíveis.
+    - Filtragem de produtos com Bottom Sheet.
+  - **Product Detail**: 
+    - Detalhes do produto, reviews, e carrossel de produtos relacionados.
+    - Funcionalidade de adicionar ao carrinho.
+  - **Shopping Cart**: 
+    - Gerenciamento do carrinho com API Context.
+    - Adição, remoção e limpeza de itens do carrinho.
+    - Cálculo do valor total.
 
-### `npm run build`
+- **Tecnologias Utilizadas**:
+  - React
+  - TypeScript
+  - Firebase (autenticação)
+  - Run Mocky (API mockada)
+  - Bibliotecas de carrossel e Bottom Sheet (ex: React Navigation)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🔧 Requisitos Obrigatórios (Em Desenvolvimento)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. **Autenticação de Usuário**: Implementada com Firebase e login com Google.
+2. **Tecnologias**: React, TypeScript, design mobile-first.
+3. **API e Dados**: Utilização de uma API mockada com Run Mocky.
+4. **Páginas**: Home, Search, Explore Products, Product Detail, Shopping Cart.
+5. **Gerenciamento de Estado**: Uso de API Context para o carrinho de compras.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🛠️ Requisitos Opcionais (A Implementar)
 
-### `npm run eject`
+- Substituir a API REST por uma API GraphQL.
+- Fazer o deploy do projeto em uma plataforma de hospedagem.
+- Criar um design para desktop.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📂 Estrutura do Projeto(Em Desenvolvimento)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
