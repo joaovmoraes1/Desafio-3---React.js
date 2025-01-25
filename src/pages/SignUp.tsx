@@ -5,6 +5,7 @@ import googleButtonImage from "../assets/Sing up with Google.png";
 import signInHereImage from "../assets/Sign In here Google.png";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, signInWithGoogle } from "../firebase";
+import statusBarImage from "../assets/Status Bar.png";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -29,6 +30,8 @@ const SignUp = () => {
       }
     }
   };
+
+  
 
   const handleGoogleSignUp = async () => {
     try {
@@ -58,6 +61,12 @@ const SignUp = () => {
         padding: "20px",
       }}
     >
+      
+      <img
+        src={statusBarImage}
+        alt="Status Bar"
+        style={{ width: "100%", marginBottom: "20px" }}
+      />
       <div>
         <h1 style={{ textAlign: "center", margin: "20px 0" }}>Audio</h1>
         <p style={{ textAlign: "center", marginBottom: "30px" }}>
