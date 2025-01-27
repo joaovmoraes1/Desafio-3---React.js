@@ -111,7 +111,7 @@ const Home: React.FC = () => {
                 color: "#000",
               }}
             >
-              Store
+              
             </span>
           </div>
         </div>
@@ -141,21 +141,24 @@ const Home: React.FC = () => {
 
       {/* Barra de Pesquisa */}
       <div
-        style={{ cursor: "pointer", padding: "16px" }}
-        onClick={() => navigate("/search")}
-      >
-        <input
-          type="text"
-          placeholder="Search headphone"
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #ddd",
-            fontSize: "14px",
-          }}
-        />
-      </div>
+  style={{ cursor: "pointer", padding: "16px" }}
+  onClick={() => {
+    console.log("Redirecionando para /search");
+    navigate("/search");
+  }}
+>
+  <input
+    type="text"
+    placeholder="Search headphone"
+    style={{
+      width: "100%",
+      padding: "12px",
+      borderRadius: "8px",
+      border: "1px solid #ddd",
+      fontSize: "14px",
+    }}
+  />
+</div>
 
       {/* Categorias */}
       <div

@@ -67,6 +67,30 @@ const GlobalStyles = createGlobalStyle`
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
   }
+
+  /* Global Styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+@media (max-width: 375px) {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  button {
+    width: auto;
+    height: auto;
+  }
+}
+
 `;
 
 export default GlobalStyles;
