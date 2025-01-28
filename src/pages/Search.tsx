@@ -23,7 +23,9 @@ const Search: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(process.env.REACT_APP_API_URL || "");
+        const response = await fetch(
+          "https://run.mocky.io/v3/06cb6f62-8e0b-4572-a09d-3811638fc52f"
+        );
         if (!response.ok) {
           throw new Error("Erro ao buscar produtos");
         }
@@ -34,7 +36,7 @@ const Search: React.FC = () => {
         console.error("Erro ao buscar produtos:", error);
       }
     };
-    
+
     fetchProducts();
   }, []);
 

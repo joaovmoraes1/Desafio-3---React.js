@@ -23,8 +23,9 @@ const ExploreProducts: React.FC<ExploreProductsProps> = ({ onFilterPress, onBack
 
   useEffect(() => {
     axios
-      .get<Product[]>(process.env.REACT_APP_API_URL || "")
+      .get<Product[]>("https://run.mocky.io/v3/06cb6f62-8e0b-4572-a09d-3811638fc52f")
       .then((response) => {
+        // Garante que os dados sejam um array antes de atualizar o estado
         if (Array.isArray(response.data)) {
           setProducts(response.data);
         } else {
@@ -34,7 +35,7 @@ const ExploreProducts: React.FC<ExploreProductsProps> = ({ onFilterPress, onBack
       })
       .catch((error) => {
         console.error("Erro ao buscar produtos:", error);
-        setProducts([]);
+        setProducts([]); // Configura um array vazio em caso de erro
       });
   }, []);
   
