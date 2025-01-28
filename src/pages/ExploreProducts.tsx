@@ -23,7 +23,7 @@ const ExploreProducts: React.FC<ExploreProductsProps> = ({ onFilterPress, onBack
 
   useEffect(() => {
     axios
-      .get<Product[]>("https://run.mocky.io/v3/06cb6f62-8e0b-4572-a09d-3811638fc52f")
+      .get<Product[]>("https://run.mocky.io/v3/37bb6a40-2006-4d0a-9d3e-ccd2bd7eb50f")
       .then((response) => {
         // Garante que os dados sejam um array antes de atualizar o estado
         if (Array.isArray(response.data)) {
