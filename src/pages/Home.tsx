@@ -9,6 +9,7 @@ import Logo from "../assets/Logo.png";
 import MenuVariant from "../assets/menu-variant.png";
 import StatusBar from "../assets/Status Bar (1).png";
 import Frame31 from "../assets/Frame 31.png";
+import Frame32 from "../assets/Frame 32.png"; // Nova imagem adicionada
 import BannerDefault from "../assets/Banner default.png";
 import HeadphoneImage from "../assets/fone.png";
 import CableImage from "../assets/cabo.png";
@@ -110,9 +111,7 @@ const Home: React.FC = () => {
                 fontSize: "18px",
                 color: "#000",
               }}
-            >
-              
-            </span>
+            ></span>
           </div>
         </div>
         <img
@@ -141,24 +140,21 @@ const Home: React.FC = () => {
 
       {/* Barra de Pesquisa */}
       <div
-  style={{ cursor: "pointer", padding: "16px" }}
-  onClick={() => {
-    console.log("Redirecionando para /search");
-    navigate("/search");
-  }}
->
-  <input
-    type="text"
-    placeholder="Search headphone"
-    style={{
-      width: "100%",
-      padding: "12px",
-      borderRadius: "8px",
-      border: "1px solid #ddd",
-      fontSize: "14px",
-    }}
-  />
-</div>
+        style={{ cursor: "pointer", padding: "16px" }}
+        onClick={() => navigate("/search")}
+      >
+        <input
+          type="text"
+          placeholder="Search headphone"
+          style={{
+            width: "100%",
+            padding: "12px",
+            borderRadius: "8px",
+            border: "1px solid #ddd",
+            fontSize: "14px",
+          }}
+        />
+      </div>
 
       {/* Categorias */}
       <div
@@ -215,11 +211,26 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* Carrossel 1 - Produtos Filtrados */}
+      {/* Produtos em Destaque */}
       <div style={{ padding: "16px" }}>
-        <h2 style={{ fontSize: "16px", fontWeight: "bold", marginBottom: "8px" }}>
-          Featured Products
-        </h2>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <h2 style={{ margin: "0", fontSize: "18px", fontWeight: "bold" }}>
+            
+          </h2>
+          <img
+            src={Frame32}
+            alt="See All"
+            style={{ cursor: "pointer", height: "19px" ,  marginRight: "1px"}}
+            onClick={() => navigate("/explore")}
+          />
+        </div>
+
         <Swiper spaceBetween={16} slidesPerView={1.5}>
           {products
             .filter((product) => product.category === "Headphone")
@@ -261,34 +272,33 @@ const Home: React.FC = () => {
         </Swiper>
       </div>
 
-      {/* Carrossel 2 - Produtos Fixos */}
+      {/* Produtos Fixos */}
       <div style={{ padding: "16px" }}>
-      <Swiper spaceBetween={16} slidesPerView={1.5}>
-  {staticProducts.map((product) => (
-    <SwiperSlide key={product.id}>
-      <div
-        style={{
-          textAlign: "center",
-          borderRadius: "8px",
-          padding: "16px",
-          backgroundColor: "#f8f8f8",
-        }}
-      >
-       <img
-          src={product.img}
-          alt={product.name}
-          style={{
-            width: "150px", // Aumente o valor da largura
-            height: "150px", // Aumente o valor da altura
-            objectFit: "contain",
-            marginBottom: "8px",
-          }}
-        />
-      </div>
-    </SwiperSlide>
-  ))}
-</Swiper>
-
+        <Swiper spaceBetween={16} slidesPerView={1.5}>
+          {staticProducts.map((product) => (
+            <SwiperSlide key={product.id}>
+              <div
+                style={{
+                  textAlign: "center",
+                  borderRadius: "8px",
+                  padding: "16px",
+                  backgroundColor: "#f8f8f8",
+                }}
+              >
+                <img
+                  src={product.img}
+                  alt={product.name}
+                  style={{
+                    width: "150px",
+                    height: "150px",
+                    objectFit: "contain",
+                    marginBottom: "8px",
+                  }}
+                />
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
     </div>
   );
