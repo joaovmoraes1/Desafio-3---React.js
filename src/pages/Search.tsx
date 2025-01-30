@@ -1,31 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import StatusBarImage from "../assets/Status Bar (1).png"; // Status Bar
-import ProductIcon from "../assets/product_list_item.png";
-import ProductListFrame from "../assets/Frame_47.png"; // Lista de Produtos
+import StatusBarImage from "../assets/Status Bar (1).png"; // Imagem da barra de status
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import { FiArrowLeft, FiMoreVertical } from "react-icons/fi";
+import { FaStar } from "react-icons/fa";
+import CartIcon from "../pages/CartIcon";
 
+// Definição da interface do produto
 interface Product {
-  id: number;
+  id: string;
   name: string;
-  image: string;
+  img: string;
   price: number;
-  rating: number;
-  reviews: number;
   popularity: number;
+  reviews: Array<{ rating: number }>;
 }
 
 const Search: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [searchTerm, setSearchTerm] = useState(""); // Estado para armazenar o termo de busca
+  const [products, setProducts] = useState<Product[]>([]); // Lista de produtos da API
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]); // Lista de produtos filtrados
   const navigate = useNavigate();
 
+  // Busca os produtos da API ao carregar a página
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(
-          "https://run.mocky.io/v3/06cb6f62-8e0b-4572-a09d-3811638fc52f"
-        );
+        const response = await fetch("https://run.mocky.io/v3/37bb6a40-2006-4d0a-9d3e-ccd2bd7eb50f");
         if (!response.ok) {
           throw new Error("Erro ao buscar produtos");
         }
@@ -40,6 +41,7 @@ const Search: React.FC = () => {
     fetchProducts();
   }, []);
 
+  // Atualiza a lista de produtos filtrados conforme a busca
   useEffect(() => {
     const results = products.filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -47,11 +49,56 @@ const Search: React.FC = () => {
     setFilteredProducts(results);
   }, [searchTerm, products]);
 
-  const getPopularProducts = () => {
-    return products.sort((a, b) => b.popularity - a.popularity).slice(0, 3);
-  };
+  // Obtém os 3 produtos mais populares
+  const popularProducts = products
+    .sort((a, b) => b.popularity - a.popularity)
+    .slice(0, 3);
 
-  const popularProducts = getPopularProducts();
+  // Renderiza um cartão de produto
+  const renderProductCard = (product: Product) => (
+    <div
+      key={product.id}
+      onClick={() => navigate(`/product/${product.id}`)} // Redireciona para a página do produto
+      style={{
+        display: "flex",
+        alignItems: "center",
+        marginBottom: "16px",
+        border: "1px solid #ddd",
+        borderRadius: "8px",
+        padding: "8px",
+        cursor: "pointer", // Indica que o card é clicável
+      }}
+    >
+      <img
+        src={product.img}
+        alt={product.name}
+        style={{
+          width: "60px",
+          height: "60px",
+          borderRadius: "8px",
+          marginRight: "12px",
+        }}
+      />
+      <div style={{ flex: 1 }}>
+        <h3 style={{ fontSize: "14px", margin: "0 0 4px" }}>{product.name}</h3>
+        <p style={{ fontSize: "12px", color: "#555", margin: "0 0 4px" }}>
+          USD {product.price}
+        </p>
+        <div style={{ display: "flex", alignItems: "center", fontSize: "12px" }}>
+          <FaStar color="#FFD700" style={{ marginRight: "4px" }} />
+          <span>
+            {(
+              product.reviews.reduce((a, b) => a + b.rating, 0) / product.reviews.length
+            ).toFixed(1)} Stars
+          </span>
+          <span style={{ marginLeft: "8px" }}>
+            {product.reviews.length} Reviews
+          </span>
+        </div>
+      </div>
+      <FiMoreVertical size={16} />
+    </div>
+  );
 
   return (
     <div
@@ -60,13 +107,11 @@ const Search: React.FC = () => {
         backgroundColor: "#fff",
         maxWidth: "375px",
         margin: "0 auto",
-        minHeight: "100vh",
+        padding: "16px",
       }}
     >
       {/* Barra de Status */}
-      <div>
-        <img src={StatusBarImage} alt="Status Bar" style={{ width: "100%" }} />
-      </div>
+      <img src={StatusBarImage} alt="Status Bar" style={{ width: "100%" }} />
 
       {/* Cabeçalho */}
       <div
@@ -74,150 +119,41 @@ const Search: React.FC = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "1px 16px",
-          borderBottom: "1px solid #ddd",
+          marginBottom: "16px",
         }}
       >
-        {/* Botão de Voltar */}
-        <button
-          onClick={() => navigate(-1)}
-          style={{
-            background: "none",
-            border: "none",
-            padding: "0",
-            margin: "0",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            cursor: "pointer",
-            width: "340px",
-            height: "40px",
-          }}
-        >
-          <img
-            src={require("../assets/title_page.png")}
-            alt="Back"
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "12px 16px",
-            }}
-          />
-        </button>
-
-        {/* Título da página */}
-        <h1
-          style={{
-            fontSize: "18px",
-            fontWeight: "bold",
-            margin: "0",
-            textAlign: "center",
-            flex: 1,
-          }}
-        >
-          
-        </h1>
-
-        {/* Placeholder para manter alinhamento */}
-        <div style={{ width: "40px" }}></div>
+        <FiArrowLeft size={24} onClick={() => navigate("/Home")} />
+        <h1 style={{ fontSize: "18px", fontWeight: "bold" }}>Search</h1>
+        <CartIcon />
       </div>
 
       {/* Campo de Busca */}
-      <div style={{ padding: "16px" }}>
-        <input
-          type="text"
-          placeholder="Search headphone"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #ddd",
-            fontSize: "14px",
-            outline: "none",
-          }}
-        />
-      </div>
+      <input
+        type="text"
+        placeholder="Search headphone"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={{
+          width: "100%",
+          padding: "12px",
+          borderRadius: "8px",
+          border: "1px solid #ddd",
+          fontSize: "14px",
+          marginBottom: "16px",
+        }}
+      />
 
-      {/* Imagem Acima da Lista de Produtos */}
-      <div style={{ textAlign: "center", marginBottom: "60px" }}>
-        <img
-          src={ProductIcon}
-          alt="Produto"
-          style={{
-            width: "100%",
-            objectFit: "contain",
-            borderRadius: "8px",
-            padding: "0 16px",
-          }}
-        />
-      </div>
-
-      {/* Lista de Produtos */}
-      <div style={{ padding: "0 17px" }}>
-        {/* Exibir produtos populares */}
-        <div style={{ marginBottom: "32px" }}>
-          <h2 style={{ fontSize: "18px", marginBottom: "16px" }}>
-            
-          </h2>
-          {popularProducts.map((product) => (
-            <div key={product.id} style={{ marginBottom: "16px" }}>
-              <img
-                src={product.image}
-                alt={product.name}
-                style={{ width: "100%", borderRadius: "8px" }}
-              />
-              <h3 style={{ fontSize: "16px", margin: "8px 0" }}>
-                {product.name}
-              </h3>
-              <p style={{ color: "#555", margin: "4px 0" }}>
-                USD {product.price}
-              </p>
-              <p style={{ color: "#999", fontSize: "14px" }}>
-                {product.rating} ({product.reviews} Reviews)
-              </p>
-            </div>
-          ))}
+      {/* Resultados da Pesquisa */}
+      {searchTerm && (
+        <div>
+          <h2 style={{ fontSize: "16px", marginBottom: "8px" }}>Search Results</h2>
+          {filteredProducts.map(renderProductCard)}
         </div>
+      )}
 
-        {/* Exibir produtos filtrados somente se houver resultados */}
-        {filteredProducts.length > 0 && (
-          <div>
-            <h2 style={{ fontSize: "18px", marginBottom: "16px" }}>
-              Search Results
-            </h2>
-            {filteredProducts.map((product) => (
-              <div key={product.id} style={{ marginBottom: "16px" }}>
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  style={{ width: "100%", borderRadius: "8px" }}
-                />
-                <h3 style={{ fontSize: "16px", margin: "8px 0" }}>
-                  {product.name}
-                </h3>
-                <p style={{ color: "#555", margin: "4px 0" }}>
-                  USD {product.price}
-                </p>
-                <p style={{ color: "#999", fontSize: "14px" }}>
-                  {product.rating} ({product.reviews} Reviews)
-                </p>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Imagem da Lista de Produtos */}
-      <div style={{ padding: "0 17px" }}>
-        <img
-          src={ProductListFrame}
-          alt="Lista de Produtos"
-          style={{ width: "100%" }}
-        />
-      </div>
+      {/* Produtos Populares */}
+      <h2 style={{ fontSize: "16px", marginBottom: "8px" }}>Popular Products</h2>
+      <div>{popularProducts.map(renderProductCard)}</div>
     </div>
   );
 };

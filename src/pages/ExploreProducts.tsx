@@ -1,121 +1,120 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import TitlePage from "../assets/Title Page .png";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { FiArrowLeft } from "react-icons/fi";
+import CartIcon from "../pages/CartIcon";
 import StatusBar from "../assets/Status Bar (1).png";
-import Frame41 from "../assets/Frame 41.png";
 import FilterEmpty from "../assets/Filter Empty.png";
-import Frame37 from "../assets/Frame 37.png";
+import Frame41 from "../assets/Frame 41.png";
 
-interface ExploreProductsProps {
-  onFilterPress: () => void;
-  onBackPress: () => void;
+// Definição das interfaces para os produtos e reviews
+interface Review {
+  userId: string;
+  userName: string;
+  rating: number;
+  comment: string;
 }
 
 interface Product {
-  id: number;
+  id: string;
   name: string;
   price: number;
-  image: string;
+  img: string;
+  reviews: Review[];
+  rating?: number;
+  category: string;
 }
 
-const ExploreProducts: React.FC<ExploreProductsProps> = ({ onFilterPress, onBackPress }) => {
-  const [products, setProducts] = useState<Product[]>([]);
+const ExploreProducts: React.FC = () => {
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const navigate = useNavigate();
 
+  // Efeito para buscar os produtos ao carregar a página
   useEffect(() => {
-    axios
-      .get<Product[]>("https://run.mocky.io/v3/06cb6f62-8e0b-4572-a09d-3811638fc52f")
-      .then((response) => {
-        // Garante que os dados sejam um array antes de atualizar o estado
-        if (Array.isArray(response.data)) {
-          setProducts(response.data);
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("https://run.mocky.io/v3/37bb6a40-2006-4d0a-9d3e-ccd2bd7eb50f");
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          const storedCategory = localStorage.getItem("selectedCategory") || "";
+          const storedSortBy = localStorage.getItem("selectedSortBy") || "";
+
+          let filtered = data;
+
+          // Filtragem baseada na categoria
+          if (storedCategory) {
+            filtered = filtered.filter((product) => product.category === storedCategory);
+          }
+
+          // Ordenação dos produtos conforme a seleção do usuário
+          if (storedSortBy === "popularity") {
+            filtered = filtered.sort((a, b) => b.reviews.length - a.reviews.length);
+          } else if (storedSortBy === "newest") {
+            filtered = filtered.sort((a, b) => b.id.localeCompare(a.id));
+          } else if (storedSortBy === "oldest") {
+            filtered = filtered.sort((a, b) => a.id.localeCompare(b.id));
+          } else if (storedSortBy === "highPrice") {
+            filtered = filtered.sort((a, b) => b.price - a.price);
+          } else if (storedSortBy === "lowPrice") {
+            filtered = filtered.sort((a, b) => a.price - b.price);
+          }
+
+          setFilteredProducts(filtered);
         } else {
-          console.error("A resposta não é um array:", response.data);
-          setProducts([]);
+          console.error("Formato inesperado da API:", data);
         }
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Erro ao buscar produtos:", error);
-        setProducts([]); // Configura um array vazio em caso de erro
-      });
+      }
+    };
+
+    fetchProducts();
   }, []);
-  
+
+  // Função para abrir a tela de filtros
+  const openFilter = () => {
+    navigate("/filter");
+  };
 
   return (
-    <div style={{ backgroundColor: "white", padding: "16px", maxWidth: "375px", margin: "0 auto", fontFamily: "Arial, sans-serif" }}>
-      {/* Status Bar */}
-      <img src={StatusBar} alt="Status Bar" style={{ width: "100%", marginTop: "50px",}} />
-
-      {/* Header */}
-      <div onClick={onBackPress} style={{ cursor: "pointer", width: "100%", maxWidth: "375px", margin: "0 auto"}}>
-        <img src={TitlePage} alt="Title Page" style={{ width: "100%" }} />
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh", backgroundColor: "#fff", overflow: "hidden" }}>
+      {/* Barra de Status */}
+      <div style={{ flexShrink: 0 }}>
+        <img src={StatusBar} alt="Status Bar" style={{ width: "100%", height: "auto", marginBottom: 8 }} />
       </div>
 
-      {/* Title Section */}
-      <div style={{ display: "flex", justifyContent: "center", margin: "8px 0" }}>
-        <img src={Frame41} alt="TMA Wireless" style={{ width: "90%", maxWidth: "250px", height: "auto" }} />
+      {/* Cabeçalho */}
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 16px", marginBottom: 8, flexShrink: 0 }}>
+        <FiArrowLeft size={24} onClick={() => navigate("/search")} style={{ cursor: "pointer" }} />
+        <CartIcon />
       </div>
 
-      {/* Filter Section */}
-      <div style={{ display: "flex", justifyContent: "center", margin: "8px 0" }}>
-        <img
-          src={FilterEmpty}
-          alt="Filter"
-          onClick={onFilterPress}
-          style={{
-            cursor: "pointer",
-            width: "90%",
-            maxWidth: "300px",
-            height: "auto",
-            borderRadius: "8px",
-          }}
-        />
+      {/* Banner e botão de filtro */}
+      <div style={{ textAlign: "center", marginBottom: 16, flexShrink: 0 }}>
+        <img src={Frame41} alt="TMA Wireless" style={{ width: "80%", height: "auto", marginBottom: "16px" }} />
+        <div onClick={openFilter} style={{ display: "flex", justifyContent: "center", alignItems: "center", cursor: "pointer" }}>
+          <img src={FilterEmpty} alt="Filter Icon" style={{ width: "300px", height: "auto" }} />
+        </div>
       </div>
 
-      {/* Product Display */}
-      <div style={{ margin: "16px 0" }}>
-        {products.length > 0 ? (
-          products.map(product => (
-            <div
-              key={product.id}
-              style={{
-                marginBottom: "16px",
-                border: "1px solid #ddd",
-                borderRadius: "8px",
-                padding: "8px",
-              }}
-            >
-              <h3>{product.name}</h3>
-              <p>USD {product.price}</p>
-              <img
-                src={product.image}
-                alt={product.name}
-                style={{
-                  width: "100%",
-                  maxWidth: "300px",
-                  height: "auto",
-                  borderRadius: "8px",
-                }}
-              />
+      {/* Lista de Produtos */}
+      <div style={{ flex: 1, overflowY: "auto", padding: "0 16px", display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 16 }}>
+        {filteredProducts.map((product) => {
+          const totalRating = product.reviews.reduce((sum, review) => sum + review.rating, 0);
+          const averageRating = totalRating / product.reviews.length || 0;
+
+          return (
+            <div key={product.id} onClick={() => navigate(`/product/${product.id}`)} style={{ border: "1px solid #ddd", borderRadius: "8px", padding: "8px", backgroundColor: "#fff", textAlign: "center", cursor: "pointer", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
+              <img src={product.img} alt={product.name} style={{ width: "100%", height: "120px", objectFit: "cover", borderRadius: "4px", marginBottom: "8px" }} />
+              <h4 style={{ fontSize: "14px", fontWeight: "bold", marginBottom: "4px" }}>{product.name}</h4>
+              <p style={{ fontSize: "12px", color: "#555", marginBottom: "8px" }}>USD {product.price.toFixed(2)}</p>
+              <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <span style={{ fontSize: "12px", marginRight: "4px" }}>{Array.from({ length: 5 }, (_, index) => (<span key={index} style={{ color: index < averageRating ? "#FFD700" : "#ddd" }}>★</span>))}</span>
+                <span style={{ fontSize: "12px", color: "#555" }}>{product.reviews.length} Reviews</span>
+              </div>
             </div>
-          ))
-        ) : (
-          <p>Carregando produtos...</p>
-        )}
-      </div>
-
-      {/* Static Image */}
-      <div style={{ display: "flex", justifyContent: "center", margin: "16px 0" }}>
-        <img
-          src={Frame37}
-          alt="Frame 37"
-          style={{
-            width: "92%",
-            maxWidth: "680px",
-            height: "auto",
-            borderRadius: "10px",
-            objectFit: "cover",
-          }}
-        />
+          );
+        })}
       </div>
     </div>
   );

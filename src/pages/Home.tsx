@@ -3,17 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 
-// Importando os assets
+// Importação de componentes e assets
+import CartIcon from "../pages/CartIcon";
+import StatusBar from "../assets/Status Bar (1).png";
 import Avatar from "../assets/Avatar.png";
 import Logo from "../assets/Logo.png";
 import MenuVariant from "../assets/menu-variant.png";
-import StatusBar from "../assets/Status Bar (1).png";
-import Frame31 from "../assets/Frame 31.png";
-import Frame32 from "../assets/Frame 32.png"; // Nova imagem adicionada
-import BannerDefault from "../assets/Banner default.png";
-import HeadphoneImage from "../assets/fone.png";
-import CableImage from "../assets/cabo.png";
 
+// Interface para definir o formato dos produtos
 interface Product {
   id: string;
   name: string;
@@ -26,39 +23,25 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
 
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch(
-        "https://run.mocky.io/v3/06cb6f62-8e0b-4572-a09d-3811638fc52f"
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch products");
-      }
-      const data = await response.json();
-      setProducts(data.featuredProducts || []);
-    } catch (error) {
-      console.error("Erro ao buscar produtos:", error);
-    }
-  };
-
+  // Busca os produtos da API ao carregar a página
   useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(
+          "https://run.mocky.io/v3/37bb6a40-2006-4d0a-9d3e-ccd2bd7eb50f"
+        );
+        if (!response.ok) {
+          throw new Error("Erro ao buscar produtos");
+        }
+        const data = await response.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Erro ao buscar produtos:", error);
+      }
+    };
+
     fetchProducts();
   }, []);
-
-  const staticProducts = [
-    {
-      id: "1",
-      name: "Fone Premium",
-      img: HeadphoneImage,
-      price: 120,
-    },
-    {
-      id: "2",
-      name: "Cabo Ultra",
-      img: CableImage,
-      price: 25,
-    },
-  ];
 
   return (
     <div
@@ -67,13 +50,11 @@ const Home: React.FC = () => {
         maxWidth: "375px",
         margin: "0 auto",
         backgroundColor: "#fff",
-        padding: "0",
+        padding: "16px",
       }}
     >
       {/* Barra de Status */}
-      <div style={{ marginTop: "290px" }}>
-        <img src={StatusBar} alt="Status Bar" style={{ width: "100%" }} />
-      </div>
+      <img src={StatusBar} alt="Status Bar" style={{ width: "100%" }} />
 
       {/* Cabeçalho */}
       <div
@@ -81,68 +62,32 @@ const Home: React.FC = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          padding: "16px",
-          height: "56px",
-          backgroundColor: "#fff",
+          marginBottom: "16px",
+          padding: "0 16px",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <img src={MenuVariant} alt="Menu" style={{ width: "24px" }} />
+        <img src={Logo} alt="Logo" style={{ height: "24px" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <img
-            src={MenuVariant}
-            alt="Menu"
-            style={{
-              height: "20px",
-              marginRight: "99px",
-              cursor: "pointer",
-            }}
+            src={Avatar}
+            alt="Avatar"
+            style={{ width: "32px", height: "32px", borderRadius: "50%" }}
           />
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <img
-              src={Logo}
-              alt="Logo"
-              style={{
-                height: "24px",
-                marginRight: "8px",
-              }}
-            />
-            <span
-              style={{
-                fontWeight: "bold",
-                fontSize: "18px",
-                color: "#000",
-              }}
-            ></span>
-          </div>
         </div>
-        <img
-          src={Avatar}
-          alt="Avatar"
-          style={{
-            height: "32px",
-            width: "32px",
-            borderRadius: "50%",
-            cursor: "pointer",
-          }}
-        />
       </div>
 
-      {/* Boas-vindas */}
-      <div style={{ padding: "0 16px" }}>
-        <h1 style={{ fontSize: "20px", fontWeight: "bold", margin: "0" }}>
-          Hi, Andrea
-        </h1>
+      {/* Seção de boas-vindas */}
+      <div style={{ marginTop: "16px", textAlign: "center" }}>
         <img
-          src={Frame31}
-          alt="Welcome Frame"
-          style={{ width: "100%", marginTop: "8px", borderRadius: "8px" }}
+          src={require("../assets/Frame 31.png")}
+          alt="Welcome"
+          style={{ width: "80%", maxWidth: "375px", borderRadius: "8px", marginRight: "50px" }}
         />
       </div>
 
       {/* Barra de Pesquisa */}
-      <div
-        style={{ cursor: "pointer", padding: "16px" }}
-        onClick={() => navigate("/search")}
-      >
+      <div style={{ marginTop: "16px" }} onClick={() => navigate("/search")}>
         <input
           type="text"
           placeholder="Search headphone"
@@ -156,145 +101,77 @@ const Home: React.FC = () => {
         />
       </div>
 
-      {/* Categorias */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-around",
-          padding: "16px",
-          backgroundColor: "#f8f8f8",
-          borderRadius: "8px",
-          margin: "16px",
-        }}
-      >
-        <button
-          style={{
-            backgroundColor: "#00a859",
-            color: "#fff",
-            padding: "8px 16px",
-            borderRadius: "16px",
-            border: "none",
-            fontSize: "14px",
-            marginRight: "8px",
-          }}
-        >
-          Headphone
-        </button>
-        <button
-          style={{
-            backgroundColor: "#ddd",
-            color: "#000",
-            padding: "8px 16px",
-            borderRadius: "16px",
-            border: "none",
-            fontSize: "14px",
-          }}
-        >
-          Headset
-        </button>
+      {/* Lista de Categorias */}
+      <div style={{ marginTop: "16px", textAlign: "center" }}>
+        <img
+          src={require("../assets/Category list.png")}
+          alt="Category List"
+          style={{ width: "110%", maxWidth: "375px", borderRadius: "8px", marginLeft: "-22px" }}
+        />
       </div>
 
-      {/* Banner */}
-      <div style={{ padding: "16px", textAlign: "center" }}>
-        <div
-          style={{
-            backgroundColor: "#f8f8f8",
-            borderRadius: "8px",
-            padding: "16px",
-          }}
-        >
-          <img
-            src={BannerDefault}
-            alt="TMA-2 Modular Headphone"
-            style={{ width: "100%", borderRadius: "8px" }}
-          />
+      {/* Banner de Destaque com o primeiro produto */}
+      <div
+        style={{
+          backgroundColor: "#f8f8f8",
+          borderRadius: "8px",
+          padding: "16px",
+          marginTop: "16px",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <img
+          src={products[0]?.img || ""}
+          alt={products[0]?.name || "Product"}
+          style={{ width: "80px", height: "80px", marginRight: "16px" }}
+        />
+        <div>
+          <h2 style={{ fontSize: "16px", fontWeight: "bold" }}>{products[0]?.name || "TMA-2 Modular Headphone"}</h2>
+          <p style={{ fontSize: "14px", color: "#555" }}>Shop now →</p>
         </div>
       </div>
 
-      {/* Produtos em Destaque */}
-      <div style={{ padding: "16px" }}>
+      {/* Carrossel de Produtos */}
+      <div style={{ marginTop: "32px" }}>
         <div
           style={{
             display: "flex",
             justifyContent: "space-between",
             alignItems: "center",
+            marginBottom: "20px",
           }}
         >
-          <h2 style={{ margin: "0", fontSize: "18px", fontWeight: "bold" }}>
-            
-          </h2>
           <img
-            src={Frame32}
+            src={require("../assets/Frame 32.png")}
             alt="See All"
-            style={{ cursor: "pointer", height: "19px" ,  marginRight: "1px"}}
             onClick={() => navigate("/explore")}
+            style={{ cursor: "pointer", width: "360px", height: "auto", marginLeft: "-10px" }}
           />
         </div>
 
-        <Swiper spaceBetween={16} slidesPerView={1.5}>
-          {products
-            .filter((product) => product.category === "Headphone")
-            .map((product) => (
-              <SwiperSlide key={product.id}>
-                <div
-                  style={{
-                    textAlign: "center",
-                    borderRadius: "8px",
-                    padding: "16px",
-                    backgroundColor: "#f8f8f8",
-                  }}
-                >
-                  <img
-                    src={product.img}
-                    alt={product.name}
-                    style={{
-                      width: "100px",
-                      height: "100px",
-                      objectFit: "contain",
-                      marginBottom: "8px",
-                    }}
-                  />
-                  <p
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "14px",
-                      margin: "8px 0",
-                    }}
-                  >
-                    {product.name}
-                  </p>
-                  <p style={{ fontSize: "12px", color: "#555" }}>
-                    USD {product.price}
-                  </p>
-                </div>
-              </SwiperSlide>
-            ))}
-        </Swiper>
-      </div>
-
-      {/* Produtos Fixos */}
-      <div style={{ padding: "16px" }}>
-        <Swiper spaceBetween={16} slidesPerView={1.5}>
-          {staticProducts.map((product) => (
+        {/* Swiper para navegação entre produtos */}
+        <Swiper spaceBetween={16} slidesPerView={2.2}>
+          {products.slice(1, 6).map((product, index) => (
             <SwiperSlide key={product.id}>
               <div
+                onClick={() => navigate(`/product/${product.id}`)}
                 style={{
-                  textAlign: "center",
+                  border: "1px solid #ddd",
                   borderRadius: "8px",
-                  padding: "16px",
-                  backgroundColor: "#f8f8f8",
+                  padding: "8px",
+                  textAlign: "center",
+                  cursor: "pointer",
+                  width: "100%",
                 }}
               >
                 <img
                   src={product.img}
                   alt={product.name}
-                  style={{
-                    width: "150px",
-                    height: "150px",
-                    objectFit: "contain",
-                    marginBottom: "8px",
-                  }}
+                  style={{ width: "80px", height: "80px", objectFit: "cover", display: "block", margin: "0 auto" }}
                 />
+                <h3 style={{ fontSize: "14px", margin: "8px 0", overflow: "hidden", textOverflow: "ellipsis" }}>{product.name}</h3>
+                <p style={{ fontSize: "12px", color: "#555" }}>USD {product.price}</p>
               </div>
             </SwiperSlide>
           ))}
