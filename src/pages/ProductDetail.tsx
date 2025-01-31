@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
-import { useCart } from "../context/CartContext";
-import CartIcon from "../pages/CartIcon";
-import Avatar from "../assets/Avatar.png"; // Ajuste o caminho conforme a estrutura do projeto
+import { useNavigate, useParams } from "react-router-dom"; // Hooks para navegação e obtenção de parâmetros da URL
+import axios from "axios"; // Biblioteca para requisições HTTP
+import { useCart } from "../context/CartContext"; // Hook para manipulação do carrinho
+import CartIcon from "../pages/CartIcon"; // Ícone do carrinho
+import styles from "../styles/ProductDetail.module.css"; // Importação dos estilos CSS
 
-// Importando os assets
+// Importação de imagens usadas na interface
+import Avatar from "../assets/Avatar.png"; 
 import StatusBarImage from "../assets/Status Bar (1).png";
 import Frame44Image from "../assets/Frame 44.png";
 import TabBarDescriptionImage from "../assets/Tab Bar Description.png";
 import Frame32Image from "../assets/Frame 32 (1).png";
 import ButtonImage from "../assets/Button.png";
 
-import { FiArrowLeft } from "react-icons/fi";
-import Slider from "react-slick";
+// Ícones e biblioteca de carrossel
+import { FiArrowLeft } from "react-icons/fi"; // Ícone de seta para voltar
+import Slider from "react-slick"; // Biblioteca de carrossel
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
+// Interface para representar os reviews do produto
 interface Review {
   userId: string;
   userName: string;
@@ -24,6 +27,7 @@ interface Review {
   comment: string;
 }
 
+// Interface para representar um produto
 interface Product {
   id: string;
   name: string;
@@ -33,29 +37,46 @@ interface Product {
   reviews: Review[];
 }
 
+/**
+ * Componente  ProductDetail:
+ * - Exibe os detalhes de um produto específico
+ * - Mostra avaliações feitas pelos usuários
+ * - Permite adicionar o produto ao carrinho
+ * - Lista produtos recomendados
+ */
 const ProductDetail: React.FC = () => {
-  const { productId } = useParams<{ productId: string }>();
-  const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { productId } = useParams<{ productId: string }>(); // Obtém o ID do produto via URL
+  const navigate = useNavigate(); // Hook para navegação
+  const { addToCart } = useCart(); // Função para adicionar ao carrinho
+
+  // Estado para armazenar os detalhes do produto
   const [product, setProduct] = useState<Product | null>(null);
+  // Estado para armazenar produtos recomendados
   const [recommendedProducts, setRecommendedProducts] = useState<Product[]>([]);
-  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  // Estado para controlar a exibição da mensagem de sucesso ao adicionar ao carrinho
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
+  /**
+   * Busca os detalhes do produto ao carregar a página
+   */
   useEffect(() => {
     axios
       .get<Product[]>("https://run.mocky.io/v3/37bb6a40-2006-4d0a-9d3e-ccd2bd7eb50f")
       .then((response) => {
+        // Filtra o produto pelo ID passado na URL
         const selectedProduct = response.data.find((p) => p.id === productId) || null;
         setProduct(selectedProduct);
+        // Define a lista de produtos recomendados (todos, exceto o atual)
         setRecommendedProducts(response.data.filter((p) => p.id !== productId));
       })
       .catch((error) => console.error("Erro ao buscar detalhes do produto:", error));
   }, [productId]);
 
+  /**
+   * Adiciona o produto ao carrinho
+   */
   const handleAddToCart = () => {
     if (product) {
-      setIsAddingToCart(true);
       addToCart({
         id: product.id,
         name: product.name,
@@ -64,231 +85,101 @@ const ProductDetail: React.FC = () => {
         quantity: 1,
       });
 
-      // Mostrar mensagem de sucesso
+      // Exibe mensagem de sucesso por 2 segundos
       setShowSuccessMessage(true);
-
-      // Ocultar mensagem de sucesso após 2 segundos
       setTimeout(() => {
         setShowSuccessMessage(false);
-        setIsAddingToCart(false);
       }, 2000);
     }
   };
 
+  /**
+   * Redireciona o usuário para a tela de recursos do produto
+   */
   const handleNavigateToFeatures = () => {
     navigate(`/features/${productId}`);
   };
 
+  // Exibe um aviso de carregamento enquanto os dados não chegam
   if (!product) return <div>Carregando...</div>;
 
   return (
-    <div
-      style={{
-        fontFamily: "'Arial', sans-serif",
-        maxWidth: "375px",
-        margin: "0 auto",
-        backgroundColor: "#fff",
-        height: "100vh",
-      }}
-    >
-      {/* Barra de Status */}
-      <img src={StatusBarImage} alt="Status Bar" style={{ width: "100%" }} />
+    <div className={styles.container}>
+      {/* Barra de status */}
+      <img src={StatusBarImage} alt="Status Bar" className={styles.statusBar} />
 
-      {/* Cabeçalho */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "16px",
-          borderBottom: "1px solid #ddd",
-        }}
-      >
-        <FiArrowLeft
-          size={24}
-          onClick={() => navigate("/Home")}
-          style={{ cursor: "pointer" }}
-        />
-        <h1 style={{ fontSize: "16px", fontWeight: "bold", margin: 0 }}>
-          {product.name}
-        </h1>
+      {/* Cabeçalho com botão de voltar, título e ícone do carrinho */}
+      <div className={styles.header}>
+        <FiArrowLeft size={24} onClick={() => navigate("/Home")} className={styles.backIcon} />
+    
         <CartIcon />
       </div>
 
-      {/* Conteúdo Principal */}
-      <div style={{ padding: "16px" }}>
-        <img
-          src={Frame44Image}
-          alt="Frame 44"
-          style={{ width: "100%", marginBottom: "16px" }}
+      {/* Conteúdo principal */}
+      <div className={styles.content}>
+        {/* Imagem principal do produto */}
+        <img src={Frame44Image} alt="Frame 44" className={styles.productImage} />
+
+        {/* Barra de descrição clicável que leva para mais detalhes */}
+        <img 
+          src={TabBarDescriptionImage} 
+          alt="Tab Bar Description" 
+          className={styles.tabBar} 
+          onClick={handleNavigateToFeatures} 
         />
 
-        {/* Tab Bar Description */}
-        <img
-          src={TabBarDescriptionImage}
-          alt="Tab Bar Description"
-          style={{
-            width: "100%",
-            marginBottom: "16px",
-            cursor: "pointer",
-          }}
-          onClick={handleNavigateToFeatures}
-        />
+        {/* Imagem do produto */}
+        <img src={product.img} alt={product.name} className={styles.productImage} />
 
-        <img
-          src={product.img}
-          alt={product.name}
-          style={{
-            width: "100%",
-            borderRadius: "8px",
-            marginBottom: "16px",
-          }}
-        />
-
-        {/* Lista de Reviews dinâmica */}
-        <h3 style={{ marginBottom: "8px" }}>Reviews</h3>
+        {/* Seção de avaliações */}
+        <h3 className={styles.reviewSection}>Reviews</h3>
         {product.reviews.length > 0 ? (
           product.reviews.map((review) => (
-            <div
-              key={review.userId}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                backgroundColor: "#f8f8f8",
-                padding: "8px",
-                borderRadius: "8px",
-                marginBottom: "8px",
-              }}
-            >
-              <img
-                src={Avatar}
-                alt="User Avatar"
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "50%",
-                  marginRight: "8px",
-                }}
-              />
-
+            <div key={review.userId} className={styles.reviewContainer}>
+              <img src={Avatar} alt="User Avatar" className={styles.userAvatar} />
               <div>
-                <strong>{review.userName}</strong>
-                <p style={{ margin: "4px 0", fontSize: "14px" }}>
-                  {Array(review.rating).fill("⭐").join(" ")}
-                </p>
-                <p style={{ margin: "4px 0", fontSize: "12px", color: "#666" }}>
-                  {review.comment}
-                </p>
+                <strong className={styles.userName}>{review.userName}</strong>
+                <p>{Array(review.rating).fill("⭐").join(" ")}</p>
+                <p className={styles.userComment}>{review.comment}</p>
               </div>
             </div>
           ))
         ) : (
-          <p style={{ fontSize: "14px", color: "#999" }}>
-            Nenhuma avaliação disponível.
-          </p>
+          <p className={styles.noReviews}>Nenhuma avaliação disponível.</p>
         )}
 
-        {/* Produtos Recomendados */}
-        <div style={{ marginTop: "32px" }}>
-          <img
-            src={Frame32Image}
-            alt="Produtos Recomendados"
-            style={{
-              width: "100%",
-              marginBottom: "16px",
-            }}
-          />
-          <Slider
-            dots={false}
-            arrows={false}
-            infinite={true}
-            speed={500}
-            slidesToShow={2}
-            slidesToScroll={1}
-          >
+        {/* Seção de produtos recomendados */}
+        <div className={styles.recommendedSection}>
+          <img src={Frame32Image} alt="Produtos Recomendados" className={styles.recommendedImage} />
+          <Slider dots={false} arrows={false} infinite={true} speed={500} slidesToShow={2} slidesToScroll={1}>
             {recommendedProducts.map((recProduct) => (
-              <div
-                key={recProduct.id}
+              <div 
+                key={recProduct.id} 
+                className={styles.recommendedProduct} 
                 onClick={() => navigate(`/product/${recProduct.id}`)}
-                style={{
-                  cursor: "pointer",
-                  textAlign: "center",
-                  padding: "8px",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
               >
-                <img
-                  src={recProduct.img}
-                  alt={recProduct.name}
-                  style={{
-                    width: "100px",
-                    height: "100px",
-                    objectFit: "cover",
-                    borderRadius: "8px",
-                    marginBottom: "8px",
-                  }}
-                />
-                <p
-                  style={{
-                    fontSize: "14px",
-                    fontWeight: "bold",
-                    margin: "0 0 4px",
-                    color: "#000",
-                  }}
-                >
-                  {recProduct.name}
-                </p>
-                <p
-                  style={{
-                    fontSize: "12px",
-                    color: "#00A859",
-                    margin: 0,
-                  }}
-                >
-                  USD {recProduct.price.toFixed(2)}
-                </p>
+                <img src={recProduct.img} alt={recProduct.name} className={styles.recommendedProductImage} />
+                <p className={styles.recommendedProductName}>{recProduct.name}</p>
+                <p className={styles.recommendedProductPrice}>USD {recProduct.price.toFixed(2)}</p>
               </div>
             ))}
           </Slider>
         </div>
       </div>
 
-      {/* Mensagem de Sucesso */}
-      {showSuccessMessage && (
-        <div
-          style={{
-            position: "fixed",
-            bottom: "80px",
-            left: "50%",
-            transform: "translateX(-50%)",
-            backgroundColor: "#00A859",
-            color: "#fff",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            fontSize: "14px",
-            zIndex: 1000,
-          }}
-        >
-          Adicionado com sucesso!
-        </div>
-      )}
+      {/* Mensagem de sucesso ao adicionar ao carrinho */}
+      {showSuccessMessage && <div className={styles.successMessage}>Adicionado com sucesso!</div>}
 
-      {/* Botão de Adicionar ao Carrinho */}
-      <img
-        src={ButtonImage}
-        alt="Adicionar ao Carrinho"
-        onClick={handleAddToCart}
-        style={{
-          width: "100%",
-          cursor: "pointer",
-          marginTop: "32px",
-        }}
-      />
+      {/* Botão de adicionar ao carrinho */}
+      <img src={ButtonImage} 
+      alt="Adicionar ao Carrinho" 
+      onClick={handleAddToCart} 
+      className={styles.addToCartButton} />
     </div>
   );
 };
 
+// Exporta o componente para ser utilizado em outras partes do projeto
 export default ProductDetail;
+
+

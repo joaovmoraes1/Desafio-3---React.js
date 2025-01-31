@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import StatusBarImage from "../assets/Status Bar (1).png"; // Imagem da barra de status
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { FiArrowLeft, FiMoreVertical } from "react-icons/fi";
-import { FaStar } from "react-icons/fa";
-import CartIcon from "../pages/CartIcon";
+import { useNavigate } from "react-router-dom"; // Hook para navegação entre páginas
+import styles from "../styles/Search.module.css"; // Importação dos estilos CSS
 
-// Definição da interface do produto
+// Importação de imagens e ícones
+import StatusBarImage from "../assets/Status Bar (1).png";
+import { FiArrowLeft, FiMoreVertical } from "react-icons/fi"; // Ícones de navegação
+import { FaStar } from "react-icons/fa"; // Ícone de estrela para avaliação
+import CartIcon from "../pages/CartIcon"; // Ícone do carrinho de compras
+
+// Interface para representar um produto
 interface Product {
   id: string;
   name: string;
@@ -16,32 +18,45 @@ interface Product {
   reviews: Array<{ rating: number }>;
 }
 
+/**
+ * Componente  Search:
+ * - Permite buscar produtos pelo nome
+ * - Exibe os produtos populares
+ * - Redireciona para a página de detalhes do produto ao clicar em um item
+ */
 const Search: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState(""); // Estado para armazenar o termo de busca
-  const [products, setProducts] = useState<Product[]>([]); // Lista de produtos da API
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]); // Lista de produtos filtrados
-  const navigate = useNavigate();
+  // Estado para armazenar o termo de busca
+  const [searchTerm, setSearchTerm] = useState(""); 
+  // Estado para armazenar os produtos carregados da API
+  const [products, setProducts] = useState<Product[]>([]); 
+  // Estado para armazenar os produtos filtrados conforme a busca
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]); 
 
-  // Busca os produtos da API ao carregar a página
+  const navigate = useNavigate(); // Hook para navegação
+
+  /**
+   * Busca os produtos da API ao carregar a página
+   */
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch("https://run.mocky.io/v3/37bb6a40-2006-4d0a-9d3e-ccd2bd7eb50f");
-        if (!response.ok) {
-          throw new Error("Erro ao buscar produtos");
-        }
+        if (!response.ok) throw new Error("Erro ao buscar produtos");
+
         const data = await response.json();
-        setProducts(data);
-        setFilteredProducts(data);
+        setProducts(data); // Atualiza o estado com os produtos carregados
+        setFilteredProducts(data); // Define os produtos filtrados inicialmente como todos os produtos
       } catch (error) {
         console.error("Erro ao buscar produtos:", error);
       }
     };
 
-    fetchProducts();
+    fetchProducts(); // Executa a busca ao montar o componente
   }, []);
 
-  // Atualiza a lista de produtos filtrados conforme a busca
+  /**
+   * Filtra os produtos conforme o usuário digita no campo de busca
+   */
   useEffect(() => {
     const results = products.filter((product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -49,83 +64,54 @@ const Search: React.FC = () => {
     setFilteredProducts(results);
   }, [searchTerm, products]);
 
-  // Obtém os 3 produtos mais populares
+  /**
+   * Obtém os três produtos mais populares da lista
+   */
   const popularProducts = products
-    .sort((a, b) => b.popularity - a.popularity)
-    .slice(0, 3);
+    .sort((a, b) => b.popularity - a.popularity) // Ordena por popularidade
+    .slice(0, 3); // Seleciona os três primeiros
 
-  // Renderiza um cartão de produto
+  /**
+   * Renderiza um cartão de produto com as informações básicas
+   */
   const renderProductCard = (product: Product) => (
-    <div
-      key={product.id}
-      onClick={() => navigate(`/product/${product.id}`)} // Redireciona para a página do produto
-      style={{
-        display: "flex",
-        alignItems: "center",
-        marginBottom: "16px",
-        border: "1px solid #ddd",
-        borderRadius: "8px",
-        padding: "8px",
-        cursor: "pointer", // Indica que o card é clicável
-      }}
-    >
-      <img
-        src={product.img}
-        alt={product.name}
-        style={{
-          width: "60px",
-          height: "60px",
-          borderRadius: "8px",
-          marginRight: "12px",
-        }}
-      />
-      <div style={{ flex: 1 }}>
-        <h3 style={{ fontSize: "14px", margin: "0 0 4px" }}>{product.name}</h3>
-        <p style={{ fontSize: "12px", color: "#555", margin: "0 0 4px" }}>
-          USD {product.price}
-        </p>
-        <div style={{ display: "flex", alignItems: "center", fontSize: "12px" }}>
-          <FaStar color="#FFD700" style={{ marginRight: "4px" }} />
+    <div key={product.id} onClick={() => navigate(`/product/${product.id}`)} className={styles.productCard}>
+      {/* Imagem do produto */}
+      <img src={product.img} alt={product.name} className={styles.productImage} />
+      
+      <div className={styles.productInfo}>
+        {/* Nome e preço do produto */}
+        <h3 className={styles.productName}>{product.name}</h3>
+        <p className={styles.productPrice}>USD {product.price}</p>
+        
+        {/* Exibição da média de avaliações do produto */}
+        <div className={styles.productRating}>
+          <FaStar color="#FFD700" /> {/* Ícone de estrela dourada */}
           <span>
             {(
               product.reviews.reduce((a, b) => a + b.rating, 0) / product.reviews.length
             ).toFixed(1)} Stars
           </span>
-          <span style={{ marginLeft: "8px" }}>
-            {product.reviews.length} Reviews
-          </span>
+          <span className={styles.productReviews}>{product.reviews.length} Reviews</span>
         </div>
       </div>
-      <FiMoreVertical size={16} />
+      {/* Ícone de menu vertical para futuras ações */}
+      <FiMoreVertical size={16} /> 
     </div>
   );
 
   return (
-    <div
-      style={{
-        fontFamily: "Arial, sans-serif",
-        backgroundColor: "#fff",
-        maxWidth: "375px",
-        margin: "0 auto",
-        padding: "16px",
-      }}
-    >
+    <div className={styles.container}>
       {/* Barra de Status */}
-      <img src={StatusBarImage} alt="Status Bar" style={{ width: "100%" }} />
+      <img src={StatusBarImage} alt="Status Bar" className={styles.statusBar} />
 
-      {/* Cabeçalho */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "16px",
-        }}
-      >
-        <FiArrowLeft size={24} onClick={() => navigate("/Home")} />
-        <h1 style={{ fontSize: "18px", fontWeight: "bold" }}>Search</h1>
+      {/* Cabeçalho com botão de voltar, título e ícone do carrinho */}
+      <div className={styles.header}>
+        <FiArrowLeft size={24} onClick={() => navigate("/Home")} className={styles.backIcon} />
+        <h1 className={styles.title}>Search</h1>
         <CartIcon />
       </div>
+
 
       {/* Campo de Busca */}
       <input
@@ -133,29 +119,23 @@ const Search: React.FC = () => {
         placeholder="Search headphone"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        style={{
-          width: "100%",
-          padding: "12px",
-          borderRadius: "8px",
-          border: "1px solid #ddd",
-          fontSize: "14px",
-          marginBottom: "16px",
-        }}
+        className={styles.searchInput}
       />
 
       {/* Resultados da Pesquisa */}
       {searchTerm && (
         <div>
-          <h2 style={{ fontSize: "16px", marginBottom: "8px" }}>Search Results</h2>
+          <h2 className={styles.sectionTitle}>Search Results</h2>
           {filteredProducts.map(renderProductCard)}
         </div>
       )}
 
       {/* Produtos Populares */}
-      <h2 style={{ fontSize: "16px", marginBottom: "8px" }}>Popular Products</h2>
+      <h2 className={styles.sectionTitle}>Popular Products</h2>
       <div>{popularProducts.map(renderProductCard)}</div>
     </div>
   );
 };
 
+// Exporta o componente para ser utilizado em outras partes do projeto
 export default Search;

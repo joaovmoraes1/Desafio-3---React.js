@@ -1,108 +1,84 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import Modal from "react-modal"; // Biblioteca para exibição de modais
+import styles from "../styles/FilterScreen.module.css"; // Importa os estilos do componente
 
-const FilterScreen: React.FC = () => {
-  const [category, setCategory] = useState<string>("headphones");
-  const [sortBy, setSortBy] = useState<string>("popularity");
-  const navigate = useNavigate();
+// Tipagem das propriedades que o componente recebe
+interface FilterScreenProps {
+  isOpen: boolean; // Controla se o modal está aberto ou fechado
+  onClose: () => void; // Função para fechar o modal
+  category: string; // Categoria atualmente selecionada
+  setCategory: React.Dispatch<React.SetStateAction<string>>; // Função para atualizar a categoria selecionada
+  sortBy: string; // Critério de ordenação selecionado
+  setSortBy: React.Dispatch<React.SetStateAction<string>>; // Função para atualizar a ordenação
+  applyFilter: () => void; // Função para aplicar os filtros selecionados
+}
 
-  const handleBackPress = () => {
-    navigate(-1);
-  };
-
-  const applyFilter = () => {
-    localStorage.setItem("selectedCategory", category);
-    localStorage.setItem("selectedSortBy", sortBy);
-    navigate("/explore");
-  };
-
+/**
+ * Componente FilterScreen:
+ * - Exibe um modal para seleção de filtros
+ * - Permite filtrar produtos por categoria e ordenar por diferentes critérios
+ * - Aplica os filtros ao clicar no botão "Apply Filter"
+ */
+const FilterScreen: React.FC<FilterScreenProps> = ({
+  isOpen,
+  onClose,
+  category,
+  setCategory,
+  sortBy,
+  setSortBy,
+  applyFilter,
+}) => {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        height: "100%",
-        backgroundColor: "#fff",
-        borderRadius: "20px",
-        boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
-        maxWidth: "360px",
-        margin: "auto",
-        padding: "16px",
-        position: "relative",
-      }}
+    <Modal
+      isOpen={isOpen} // Controla a visibilidade do modal
+      onRequestClose={onClose} // Fecha o modal ao clicar fora
+      className={styles.modalContent} // Aplica os estilos do modal
+      overlayClassName={styles.modalOverlay} // Estilos para o fundo do modal
     >
-      {/* Botão de fechar */}
-      <button
-        onClick={handleBackPress}
-        style={{
-          position: "absolute",
-          top: "0px",
-          right: "12px",
-          backgroundColor: "transparent",
-          border: "none",
-          fontSize: "18px",
-          cursor: "pointer",
-          color: "#000",
-          marginRight: "-120px",
-        }}
-      >
+      {/* Botão para fechar o modal */}
+      <button onClick={onClose} className={styles.closeButton}>
         ✕
       </button>
 
-      {/* Título */}
-      <h3
-        style={{
-          fontSize: "20px",
-          fontWeight: "bold",
-          marginBottom: "16px",
-          marginRight: "200px",
-        }}
-      >
+      {/* Título do modal */}
+      <h3 className={styles.title}>
         Filter
+        <button onClick={onClose} className={styles.closeButton}>
+          ✕
+        </button>
       </h3>
 
-      {/* Categoria */}
-      <div style={{ width: "100%", marginBottom: "24px" }}>
-        <h4 style={{ marginBottom: "8px", fontWeight: "bold" }}>Category</h4>
-        <div style={{ display: "flex", gap: "12px" }}>
+      {/* Seção para filtragem por categoria */}
+      <div className={styles.filterSection}>
+        <h4 className={styles.filterLabel}>Category</h4>
+        <div className={styles.buttonGroup}>
+          {/* Botão para selecionar a categoria "Headphone" */}
           <button
             onClick={() => setCategory("headphones")}
-            style={{
-              flex: 1,
-              padding: "10px",
-              backgroundColor: category === "headphones" ? "#28a745" : "#f1f1f1",
-              color: category === "headphones" ? "#fff" : "#000",
-              border: "none",
-              borderRadius: "20px",
-              fontWeight: "bold",
-              cursor: "pointer",
-            }}
+            className={`${styles.button} ${
+              category === "headphones" ? styles.active : ""
+            }`}
           >
             Headphone
           </button>
+
+          {/* Botão para selecionar a categoria "Headset" */}
           <button
             onClick={() => setCategory("headsets")}
-            style={{
-              flex: 1,
-              padding: "10px",
-              backgroundColor: category === "headsets" ? "#28a745" : "#f1f1f1",
-              color: category === "headsets" ? "#fff" : "#000",
-              border: "none",
-              borderRadius: "20px",
-              fontWeight: "bold",
-              cursor: "pointer",
-            }}
+            className={`${styles.button} ${
+              category === "headsets" ? styles.active : ""
+            }`}
           >
             Headset
           </button>
         </div>
       </div>
 
-      {/* Ordenação */}
-      <div style={{ width: "100%", marginBottom: "24px" }}>
-        <h4 style={{ marginBottom: "8px", fontWeight: "bold" }}>Sort By</h4>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+      {/* Seção para ordenação dos produtos */}
+      <div className={styles.filterSection}>
+        <h4 className={styles.filterLabel}>Sort By</h4>
+        <div className={styles.sortGrid}>
+          {/* Mapeia as opções de ordenação e cria botões dinâmicos */}
           {[
             { key: "popularity", label: "Popularity" },
             { key: "newest", label: "Newest" },
@@ -113,15 +89,9 @@ const FilterScreen: React.FC = () => {
             <button
               key={option.key}
               onClick={() => setSortBy(option.key)}
-              style={{
-                padding: "10px",
-                backgroundColor: sortBy === option.key ? "#28a745" : "#f1f1f1",
-                color: sortBy === option.key ? "#fff" : "#000",
-                border: "none",
-                borderRadius: "20px",
-                fontWeight: "bold",
-                cursor: "pointer",
-              }}
+              className={`${styles.button} ${
+                sortBy === option.key ? styles.active : ""
+              }`}
             >
               {option.label}
             </button>
@@ -129,25 +99,13 @@ const FilterScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* Botão de aplicar filtro */}
-      <button
-        onClick={applyFilter}
-        style={{
-          padding: "12px",
-          backgroundColor: "#28a745",
-          color: "#fff",
-          border: "none",
-          borderRadius: "20px",
-          cursor: "pointer",
-          width: "100%",
-          fontWeight: "bold",
-          fontSize: "16px",
-        }}
-      >
+      {/* Botão para aplicar os filtros selecionados */}
+      <button onClick={applyFilter} className={styles.applyButton}>
         Apply Filter
       </button>
-    </div>
+    </Modal>
   );
 };
 
+// Exporta o componente para uso em outras partes do projeto
 export default FilterScreen;

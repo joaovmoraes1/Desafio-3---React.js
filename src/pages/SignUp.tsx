@@ -1,23 +1,34 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Hook para navegação entre páginas
+import styles from "../styles/SignUp.module.css"; // Importação dos estilos CSS
 
 // Importação de imagens utilizadas no design
-import bgImage from "../assets/background.jpg";
-import googleButtonImage from "../assets/Sing up with Google.png";
+import bgImage from "../assets/background.jpg"; 
+import googleButtonImage from "../assets/Sing up with Google.png"; 
 import signInHereImage from "../assets/Sign In here Google.png";
 import statusBarImage from "../assets/Status Bar.png";
 
 // Importação das funções de autenticação do Firebase
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, signInWithGoogle } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth"; // Função para criar conta com email e senha
+import { auth, signInWithGoogle } from "../firebase"; // Importação das funções de autenticação
 
-const SignUp = () => {
-  const [email, setEmail] = useState(""); // Estado para armazenar o email
-  const [password, setPassword] = useState(""); // Estado para armazenar a senha
-  const [confirmPassword, setConfirmPassword] = useState(""); // Estado para confirmar senha
-  const navigate = useNavigate(); // Hook para navegação entre páginas
+/**
+  Componente SignUp:
+ * - Permite o usuário criar uma conta com email/senha ou Google
+ * - Valida se as senhas digitadas coincidem antes do cadastro
+ * - Redireciona para a tela de login após um cadastro bem-sucedido
+ */
+const SignUp: React.FC = () => {
+  // Estados para armazenar email, senha e confirmação de senha
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  // Função para realizar o cadastro de usuário
+  const navigate = useNavigate(); // Hook para navegação
+
+  /**
+   * Função para realizar cadastro com email e senha
+   */
   const handleSignUp = async () => {
     if (password !== confirmPassword) {
       alert("As senhas não coincidem!");
@@ -26,7 +37,7 @@ const SignUp = () => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
       alert("Cadastro bem-sucedido!");
-      navigate("/signin");
+      navigate("/signin"); // Redireciona para a tela de login após o cadastro
     } catch (error) {
       if (error instanceof Error) {
         alert("Erro ao cadastrar: " + error.message);
@@ -36,12 +47,14 @@ const SignUp = () => {
     }
   };
 
-  // Função para realizar o cadastro com Google
+  /**
+   * Função para realizar cadastro com Google
+   */
   const handleGoogleSignUp = async () => {
     try {
       await signInWithGoogle();
       alert("Cadastro com Google bem-sucedido!");
-      navigate("/home");
+      navigate("/home"); // Redireciona para a home após o cadastro
     } catch (error) {
       if (error instanceof Error) {
         alert("Erro ao cadastrar com Google: " + error.message);
@@ -52,112 +65,65 @@ const SignUp = () => {
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${bgImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        color: "#fff",
-        justifyContent: "space-between",
-        padding: "20px",
-      }}
-    >
+    <div className={styles.container} style={{ backgroundImage: `url(${bgImage})` }}>
       {/* Barra de Status */}
-      <img src={statusBarImage} alt="Status Bar" style={{ width: "100%", marginBottom: "20px" }} />
-      
+      <img src={statusBarImage} alt="Status Bar" className={styles.statusBar} />
+
       {/* Título da Página */}
       <div>
-        <h1 style={{ textAlign: "center", margin: "20px 0" }}>Audio</h1>
-        <p style={{ textAlign: "center", marginBottom: "30px" }}>
-          It's modular and designed to last
-        </p>
+        <h1 className={styles.title}>Audio</h1>
+        <p className={styles.subtitle}>It's modular and designed to last</p>
       </div>
 
       {/* Formulário de Cadastro */}
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
+      <div className={styles.formContainer}>
+        {/* Campo de Email */}
         <input
           type="email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          style={{
-            width: "80%",
-            padding: "10px",
-            marginBottom: "10px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-          }}
+          className={styles.inputField}
         />
+
+        {/* Campo de Senha */}
         <input
           type="password"
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          style={{
-            width: "80%",
-            padding: "10px",
-            marginBottom: "10px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-          }}
+          className={styles.inputField}
         />
+
+        {/* Campo de Confirmação de Senha */}
         <input
           type="password"
           placeholder="Confirm Password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
-          style={{
-            width: "80%",
-            padding: "10px",
-            marginBottom: "20px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-          }}
+          className={styles.inputField}
         />
-        
-        {/* Botão de cadastro */}
-        <button
-          onClick={handleSignUp}
-          style={{
-            width: "80%",
-            padding: "10px",
-            backgroundColor: "#28a745",
-            color: "#fff",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            marginBottom: "10px",
-          }}
-        >
+
+        {/* Botão de Cadastro */}
+        <button onClick={handleSignUp} className={styles.signUpButton}>
           Sign Up
         </button>
-        
+
         {/* Cadastro com Google */}
         <img
           src={googleButtonImage}
           alt="Sign up with Google"
-          style={{ width: "80%", cursor: "pointer" }}
+          className={styles.googleButton}
           onClick={handleGoogleSignUp}
         />
       </div>
-      
+
       {/* Link para login */}
-      <div style={{ textAlign: "center" }}>
+      <div className={styles.signInContainer}>
         <img
           src={signInHereImage}
           alt="Sign In here"
-          style={{ cursor: "pointer", width: "50%" }}
+          className={styles.signInImage}
           onClick={() => navigate("/signin")}
         />
       </div>
@@ -165,4 +131,5 @@ const SignUp = () => {
   );
 };
 
+// Exporta o componente para ser utilizado em outras partes do projeto
 export default SignUp;

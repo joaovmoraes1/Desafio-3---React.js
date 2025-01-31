@@ -1,6 +1,7 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import CartIcon from "../pages/CartIcon"; 
+import { useNavigate } from "react-router-dom"; // Hook para navegação
+import CartIcon from "../pages/CartIcon"; // Ícone do carrinho de compras
+import styles from "../styles/Features.module.css"; // Importação dos estilos CSS
 
 // Importação de imagens utilizadas na interface
 import StatusBarImage from "../assets/Status Bar (1).png";
@@ -10,95 +11,54 @@ import Frame54Image from "../assets/Frame 54.png";
 import ButtonImage from "../assets/Button.png";
 
 // Ícones
-import { FiArrowLeft } from "react-icons/fi";
+import { FiArrowLeft } from "react-icons/fi"; // Ícone de seta para voltar
 
+/**
+ * Componente  Features:
+ * - Exibe informações sobre os recursos de um produto
+ * - Inclui imagens representativas do produto
+ * - Possui botão para retornar à tela anterior
+ */
 const Features: React.FC = () => {
-  const navigate = useNavigate();
-  const { productId } = useParams<{ productId: string }>(); // Obtém o ID do produto via URL
+  const navigate = useNavigate(); // Hook para navegação entre páginas
 
   return (
-    <div
-      style={{
-        fontFamily: "'Arial', sans-serif",
-        maxWidth: "375px",
-        margin: "0 auto",
-        backgroundColor: "#fff",
-        height: "100vh",
-      }}
-    >
+    <div className={styles.container}>
       {/* Barra de Status */}
-      <img src={StatusBarImage} alt="Status Bar" style={{ width: "100%" }} />
+      <img src={StatusBarImage} alt="Status Bar" className={styles.statusBar} />
 
-      {/* Cabeçalho */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "16px",
-          borderBottom: "1px solid #ddd",
-        }}
-      >
-        <FiArrowLeft
-          size={24}
-          onClick={() => navigate(-1)} // Voltar para a página anterior
-          style={{ cursor: "pointer" }}
+      {/* Cabeçalho da página com botão de voltar, título e ícone do carrinho */}
+      <div className={styles.header}>
+        <FiArrowLeft 
+          size={24} 
+          onClick={() => navigate(-1)} // Retorna para a tela anterior
+          className={styles.backIcon} 
         />
-        <h1 style={{ fontSize: "16px", fontWeight: "bold", margin: 0 }}>
-          Features
-        </h1>
-        <CartIcon /> {/* Ícone do carrinho */}
+        <h1 className={styles.title}>Features</h1>
+        <CartIcon />
       </div>
 
       {/* Conteúdo Principal */}
-      <div
-        style={{
-          padding: "16px",
-          backgroundColor: "#fff",
-          borderRadius: "8px",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        {/* Imagem principal */}
-        <img
-          src={Frame44Image}
-          alt="Frame 44"
-          style={{ width: "100%", marginBottom: "16px" }}
-        />
+      <div className={styles.content}>
+        {/* Imagem principal representando o produto */}
+        <img src={Frame44Image} alt="Produto" className={styles.image} />
 
-        {/* Barra de descrição */}
-        <img
-          src={TabBarDescriptionImage}
-          alt="Tab Bar Description"
-          style={{ width: "100%", marginBottom: "16px" }}
-        />
+        {/* Barra de descrição do produto */}
+        <img src={TabBarDescriptionImage} alt="Descrição do Produto" className={styles.image} />
 
-        {/* Outra seção de informações */}
-        <img
-          src={Frame54Image}
-          alt="Frame 54"
-          style={{ width: "100%", marginBottom: "100px" }}
-        />
+        {/* Seção com mais informações sobre o produto */}
+        <img src={Frame54Image} alt="Detalhes Adicionais" className={styles.image} />
 
         {/* Botão de adicionar ao carrinho */}
-        <button
-          onClick={() => navigate(-1)} // Volta para a página anterior
-          style={{
-            width: "100%",
-            padding: "16px",
-            backgroundColor: "#00A859",
-            color: "#fff",
-            border: "none",
-            borderRadius: "8px",
-            fontSize: "16px",
-            cursor: "pointer",
-          }}
-        >
-          <img src={ButtonImage} alt="Add to Cart" style={{ width: "100%" }} />
-        </button>
+        <button onClick={() => navigate(-1)} className={styles.button}>
+          <img src={ButtonImage} alt="Add to Cart" />
+      </button>
+
+
       </div>
     </div>
   );
 };
 
+// Exporta o componente para ser usado em outras partes do projeto
 export default Features;

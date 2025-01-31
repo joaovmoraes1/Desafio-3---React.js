@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Importação do roteamento
 import { CartProvider } from "./context/CartContext"; // Provedor do carrinho de compras
 
 // Importação das páginas do aplicativo
@@ -8,27 +8,30 @@ import Home from "./pages/Home";
 import Search from "./pages/Search";
 import ProductDetail from "./pages/ProductDetail";
 import ExploreProducts from "./pages/ExploreProducts";
-import FilterScreen from "./pages/FilterScreen";
 import Features from "./pages/Features";
 import ShoppingCart from "./pages/ShoppingCart";
 
+/**
+ * Componente principal App:
+ * - Define as rotas do aplicativo
+ * - Envolve toda a aplicação dentro do `CartProvider` para permitir o gerenciamento global do carrinho
+ */
 function App() {
   return (
-    // Envolve o aplicativo dentro do CartProvider para fornecer acesso ao carrinho globalmente
+    // Provedor do carrinho de compras para gerenciar os estados do carrinho globalmente
     <CartProvider>
       <Router>
         <Routes>
           {/* Definição das rotas do aplicativo */}
-          <Route path="/" element={<SignIn />} />
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/explore" element={<ExploreProducts />} />
-          <Route path="/filter" element={<FilterScreen />} />
-          <Route path="/product/:productId" element={<ProductDetail />} />
-          <Route path="/features/:productId" element={<Features />} />
-          <Route path="/shopping-cart" element={<ShoppingCart />} />
+          <Route path="/" element={<SignIn />} /> {/* Página inicial de login */}
+          <Route path="/signin" element={<SignIn />} /> {/* Login */}
+          <Route path="/signup" element={<SignUp />} /> {/* Cadastro */}
+          <Route path="/home" element={<Home />} /> {/* Página principal */}
+          <Route path="/search" element={<Search />} /> {/* Página de busca */}
+          <Route path="/explore" element={<ExploreProducts />} /> {/* Exploração de produtos */}
+          <Route path="/product/:productId" element={<ProductDetail />} /> {/* Detalhes do produto */}
+          <Route path="/features/:productId" element={<Features />} /> {/* Recursos do produto */}
+          <Route path="/shopping-cart" element={<ShoppingCart />} /> {/* Carrinho de compras */}
 
           {/* Rota coringa: Redireciona para SignIn caso a rota não seja encontrada */}
           <Route path="*" element={<SignIn />} />
@@ -38,4 +41,5 @@ function App() {
   );
 }
 
+// Exporta o componente principal do aplicativo
 export default App;

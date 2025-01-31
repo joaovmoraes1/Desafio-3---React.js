@@ -1,186 +1,129 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { FiArrowLeft, FiTrash } from "react-icons/fi";
-import { useCart } from "../context/CartContext";
-import StatusBarImage from "../assets/Status Bar (1).png";
+import { useNavigate } from "react-router-dom"; // Hook para navegação entre páginas
+import { FiArrowLeft, FiTrash } from "react-icons/fi"; // Ícones de voltar e lixeira
+import { useCart } from "../context/CartContext"; // Hook para manipulação do carrinho
+import StatusBarImage from "../assets/Status Bar (1).png"; 
+import styles from "../styles/ShoppingCart.module.css"; // Importação dos estilos CSS
 
-const ShoppingCart = () => {
-  const navigate = useNavigate();
-  const { cart, clearCart, updateItemQuantity, totalItems, totalPrice } = useCart();
-  
-  // Estado para exibir o modal de confirmação
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
+/**
+ * Componente ShoppingCart:
+ * - Exibe os itens adicionados ao carrinho
+ * - Permite alterar a quantidade de cada item
+ * - Possui funcionalidade para limpar o carrinho
+ * - Inclui botão para seguir para o checkout
+ */
+const ShoppingCart: React.FC = () => {
+  const navigate = useNavigate(); // Hook para navegação
+  const { cart, clearCart, updateItemQuantity, totalItems, totalPrice } = useCart(); // Funções e estados do carrinho
+  const [showConfirmModal, setShowConfirmModal] = useState(false); // Estado para controlar exibição do modal de confirmação
 
-  // Função para abrir o modal
+  /**
+   * Função para abrir o modal de confirmação ao tentar limpar o carrinho
+   */
   const handleClearCart = () => {
     setShowConfirmModal(true);
   };
 
-  // Função para confirmar a limpeza do carrinho
+  /**
+   * Função para confirmar a limpeza do carrinho
+   */
   const confirmClearCart = () => {
     clearCart();
-    setShowConfirmModal(false); // Fecha o modal após limpar o carrinho
+    setShowConfirmModal(false);
   };
 
   return (
-    <div
-      style={{
-        fontFamily: "'Arial', sans-serif",
-        maxWidth: "375px",
-        margin: "0 auto",
-        backgroundColor: "#fff",
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
+    <div className={styles.container}>
       {/* Barra de Status */}
-      <img src={StatusBarImage} alt="Status Bar" style={{ width: "100%" }} />
+      <img src={StatusBarImage} alt="Status Bar" className={styles.statusBar} />
 
-      {/* Cabeçalho */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "16px",
-          borderBottom: "1px solid #ddd",
-        }}
-      >
-        <FiArrowLeft size={24} onClick={() => navigate(-1)} style={{ cursor: "pointer" }} />
-        <h1 style={{ fontSize: "16px", fontWeight: "bold", margin: 0 }}>Shopping Cart</h1>
-        <FiTrash size={24} onClick={handleClearCart} style={{ cursor: "pointer", color: "red" }} />
+      {/* Cabeçalho com botão de voltar, título e ícone de limpar carrinho */}
+      <div className={styles.header}>
+        <FiArrowLeft size={24} onClick={() => navigate(-1)} className={styles.backIcon} />
+        <h1 className={styles.headerTitle}>Shopping Cart</h1>
+        <FiTrash size={24} onClick={handleClearCart} className={styles.trashIcon} />
       </div>
 
-      {/* Conteúdo */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "16px" }}>
+      {/* Conteúdo do carrinho */}
+      <div className={styles.content}>
         {cart.length === 0 ? (
-          <p style={{ textAlign: "center", color: "#666" }}>Seu carrinho está vazio.</p>
+          <p className={styles.emptyCart}>Seu carrinho está vazio.</p>
         ) : (
           cart.map((item) => (
-            <div
-              key={item.id}
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                padding: "16px 0",
-                borderBottom: "1px solid #ddd",
-              }}
-            >
-              <img
-                src={item.image}
-                alt={item.name}
-                style={{ width: "60px", height: "60px", objectFit: "cover", borderRadius: "8px" }}
-              />
-              <div style={{ flex: 1, marginLeft: "16px" }}>
-                <h3 style={{ margin: 0, fontSize: "14px", fontWeight: "bold" }}>{item.name}</h3>
-                <p style={{ margin: 0, fontSize: "12px", color: "#666" }}>USD {item.price.toFixed(2)}</p>
+            <div key={item.id} className={styles.cartItem}>
+              {/* Imagem do produto */}
+              <img src={item.image} alt={item.name} className={styles.productImage} />
+
+              {/* Informações do produto */}
+              <div className={styles.productInfo}>
+                <h3 className={styles.productName}>{item.name}</h3>
+                <p className={styles.productPrice}>USD {item.price.toFixed(2)}</p>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                <button onClick={() => updateItemQuantity(item.id, item.quantity - 1)} style={buttonStyle}>-</button>
-                <span style={{ margin: "0 8px", fontSize: "14px" }}>{item.quantity}</span>
-                <button onClick={() => updateItemQuantity(item.id, item.quantity + 1)} style={buttonStyle}>+</button>
-                <FiTrash size={20} onClick={() => updateItemQuantity(item.id, 0)} style={{ cursor: "pointer", color: "red" }} />
+
+              {/* Controles de quantidade */}
+              <div className={styles.quantityControls}>
+                {/* Botão para diminuir a quantidade */}
+                <button 
+                  onClick={() => updateItemQuantity(item.id, item.quantity - 1)} 
+                  className={styles.button}
+                >
+                  -
+                </button>
+
+                {/* Quantidade do item no carrinho */}
+                <span>{item.quantity}</span>
+
+                {/* Botão para aumentar a quantidade */}
+                <button 
+                  onClick={() => updateItemQuantity(item.id, item.quantity + 1)} 
+                  className={styles.button}
+                >
+                  +
+                </button>
+
+                {/* Ícone para remover o item do carrinho */}
+                <FiTrash 
+                  size={20} 
+                  onClick={() => updateItemQuantity(item.id, 0)} 
+                  className={styles.trashIcon} 
+                />
               </div>
             </div>
           ))
         )}
       </div>
 
-      {/* Total e Botão */}
-      <div
-        style={{
-          padding: "16px",
-          borderTop: "1px solid #ddd",
-          backgroundColor: "#fff",
-        }}
-      >
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px" }}>
-          <span style={{ fontSize: "14px", color: "#666" }}>Total {totalItems} Items</span>
-          <span style={{ fontSize: "16px", fontWeight: "bold" }}>USD {totalPrice.toFixed(2)}</span>
+      {/* Seção de total e botão de checkout */}
+      <div className={styles.totalSection}>
+        <div className={styles.totalInfo}>
+          <span className={styles.totalText}>Total {totalItems} Items</span>
+          <span className={styles.totalPrice}>USD {totalPrice.toFixed(2)}</span>
         </div>
-        <button
-          onClick={() => navigate("/checkout")}
-          style={{
-            width: "100%",
-            padding: "16px",
-            backgroundColor: "#00A859",
-            color: "#fff",
-            border: "none",
-            borderRadius: "8px",
-            fontSize: "16px",
-            cursor: "pointer",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            transition: "background 0.3s ease-in-out, transform 0.1s ease-in-out",
-          }}
-          onMouseDown={(e) => {
-            e.currentTarget.style.backgroundColor = "#00804D";
-            e.currentTarget.style.transform = "scale(0.95)";
-          }}
-          onMouseUp={(e) => {
-            e.currentTarget.style.backgroundColor = "#00A859";
-            e.currentTarget.style.transform = "scale(1)";
-          }}
-        >
+
+        {/* Botão para finalizar compra */}
+        <button onClick={() => navigate("/checkout")} className={styles.checkoutButton}>
           Proceed to Checkout
         </button>
       </div>
 
-      {/* Modal de Confirmação */}
+      {/* Modal de Confirmação para limpar carrinho */}
       {showConfirmModal && (
-        <div
-          style={{
-            position: "fixed",
-            top: "0",
-            left: "0",
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: "1000",
-          }}
-        >
-          <div
-            style={{
-              backgroundColor: "#fff",
-              padding: "20px",
-              borderRadius: "8px",
-              textAlign: "center",
-              boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
-            }}
-          >
-            <p style={{ fontSize: "16px", fontWeight: "bold", marginBottom: "20px" }}>
-              Tem certeza que deseja limpar o carrinho?
-            </p>
-            <button
-              onClick={confirmClearCart}
-              style={{
-                backgroundColor: "#0a0a0a",
-                color: "#fff",
-                padding: "10px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                marginRight: "10px",
-              }}
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <p className={styles.modalText}>Tem certeza que deseja limpar o carrinho?</p>
+
+            {/* Botão de confirmação */}
+            <button 
+              onClick={confirmClearCart} 
+              className={`${styles.modalButton} ${styles.confirmButton}`}
             >
               Sim, limpar
             </button>
-            <button
-              onClick={() => setShowConfirmModal(false)}
-              style={{
-                backgroundColor: "#ccc",
-                color: "#000",
-                padding: "10px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-              }}
+
+            {/* Botão para cancelar a ação */}
+            <button 
+              onClick={() => setShowConfirmModal(false)} 
+              className={`${styles.modalButton} ${styles.cancelButton}`}
             >
               Cancelar
             </button>
@@ -191,18 +134,5 @@ const ShoppingCart = () => {
   );
 };
 
-// Estilos para os botões de quantidade
-const buttonStyle = {
-  width: "32px",
-  height: "32px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: "#f0f0f0",
-  border: "1px solid #ddd",
-  borderRadius: "8px",
-  cursor: "pointer",
-  fontSize: "16px",
-};
-
+// Exporta o componente para ser utilizado em outras partes do projeto
 export default ShoppingCart;

@@ -1,0 +1,143 @@
+.container {
+    font-family: 'Arial', sans-serif;
+    max-width: 375px;
+    margin: 0 auto;
+    background-color: #fff;
+    height: 100vh;
+  }
+  
+  .statusBar {
+    width: 100%;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  
+  
+  .backIcon {
+    cursor: pointer;
+  }
+  
+  .productTitle {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .content {
+    padding: 16px;
+  }
+  
+  .productImage {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  
+  .tabBar {
+    width: 100%;
+    margin-bottom: 16px;
+    cursor: pointer;
+  }
+  
+  .reviewSection {
+    margin-bottom: 8px;
+  }
+  
+  .reviewContainer {
+    display: flex;
+    align-items: center;
+    background-color: #f8f8f8;
+    padding: 8px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .userAvatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+  
+  .userName {
+    font-weight: bold;
+  }
+  
+  .userComment {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .noReviews {
+    font-size: 14px;
+    color: #999;
+  }
+  
+  .recommendedSection {
+    margin-top: 32px;
+  }
+  
+  .recommendedImage {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  
+  .recommendedProduct {
+    cursor: pointer;
+    text-align: center;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .recommendedProductImage {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .recommendedProductName {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 0 4px;
+    color: #000;
+  }
+  
+  .recommendedProductPrice {
+    font-size: 12px;
+    color: #00A859;
+    margin: 0;
+  }
+  
+  .successMessage {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #00A859;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    z-index: 1000;
+  }
+  
+  .addToCartButton {
+    width: 100%;
+    cursor: pointer;
+    margin-top: 32px;
+  }
+  
+
+    
