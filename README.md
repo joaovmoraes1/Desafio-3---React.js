@@ -1,6 +1,6 @@
 # Desafio 3 - Programa de Bolsas Frontend (React.js) 🚀
 
-Este repositório contém a solução para o **Desafio 3** do Programa de Bolsas Frontend, focado em React.js. O objetivo do desafio é avaliar a capacidade de resolução de problemas, utilização de ferramentas e assertividade frente às demandas solicitadas.
+Este repositório contém a solução para o **Desafio 3** do Programa de Bolsas Frontend da empresa Compass Uol, focado em React.js. O objetivo do desafio é avaliar a capacidade de resolução de problemas, utilização de ferramentas e assertividade frente às demandas solicitadas.
 
 **Status do Projeto**: ✅ **CONCLUÍDO** ✅
 
@@ -107,5 +107,5 @@ Desafio-3---React.js
 ## 📌 Considerações Finais
 O projeto atende aos requisitos do desafio, implementando autenticação, navegação, filtragem, carrosséis dinâmicos e gerenciamento completo de carrinho.
 
-Sinta-se à vontade para contribuir ou sugerir melhorias! 🚀
+Sinta-se à vontade para contribuir ou sugerir melhorias! 
 
