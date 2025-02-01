@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"; // Hooks para navegação e obtenção de parâmetros da URL
 import axios from "axios"; // Biblioteca para requisições HTTP
-import { useCart } from "../context/CartContext"; // Hook para manipulação do carrinho
+import { useCart } from "../context/CartContext"; 
 import CartIcon from "../pages/CartIcon"; 
-import styles from "../styles/ProductDetail.module.css"; // Importação dos estilos CSS
+import styles from "../styles/ProductDetail.module.css"; 
 
 // Importação de imagens usadas na interface
 import Avatar from "../assets/Avatar.png"; 

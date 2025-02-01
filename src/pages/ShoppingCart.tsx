@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Hook para navegação entre páginas
-import { FiArrowLeft, FiTrash } from "react-icons/fi"; // Ícones de voltar e lixeira
-import { useCart } from "../context/CartContext"; // Hook para manipulação do carrinho
+import { FiArrowLeft, FiTrash } from "react-icons/fi"; 
+import { useCart } from "../context/CartContext"; 
 import StatusBarImage from "../assets/Status Bar (1).png"; 
-import styles from "../styles/ShoppingCart.module.css"; // Importação dos estilos CSS
-
+import styles from "../styles/ShoppingCart.module.css"; 
 
 const ShoppingCart: React.FC = () => {
   const navigate = useNavigate(); // Hook para navegação

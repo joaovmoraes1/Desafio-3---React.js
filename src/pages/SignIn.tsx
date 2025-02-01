@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Hook para navegação entre páginas
-import styles from "../styles/SignIn.module.css"; // Importação dos estilos CSS
+import styles from "../styles/SignIn.module.css"; 
 
 // Importação de imagens utilizadas no design
 import bgImage from "../assets/background.jpg"; 
