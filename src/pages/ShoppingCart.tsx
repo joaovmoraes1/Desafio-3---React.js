@@ -5,13 +5,7 @@ import { useCart } from "../context/CartContext"; // Hook para manipulação do 
 import StatusBarImage from "../assets/Status Bar (1).png"; 
 import styles from "../styles/ShoppingCart.module.css"; // Importação dos estilos CSS
 
-/**
- * Componente ShoppingCart:
- * - Exibe os itens adicionados ao carrinho
- * - Permite alterar a quantidade de cada item
- * - Possui funcionalidade para limpar o carrinho
- * - Inclui botão para seguir para o checkout
- */
+
 const ShoppingCart: React.FC = () => {
   const navigate = useNavigate(); // Hook para navegação
   const { cart, clearCart, updateItemQuantity, totalItems, totalPrice } = useCart(); // Funções e estados do carrinho
@@ -134,5 +128,4 @@ const ShoppingCart: React.FC = () => {
   );
 };
 
-// Exporta o componente para ser utilizado em outras partes do projeto
 export default ShoppingCart;

@@ -11,11 +11,7 @@ import ExploreProducts from "./pages/ExploreProducts";
 import Features from "./pages/Features";
 import ShoppingCart from "./pages/ShoppingCart";
 
-/**
- * Componente principal App:
- * - Define as rotas do aplicativo
- * - Envolve toda a aplicação dentro do `CartProvider` para permitir o gerenciamento global do carrinho
- */
+
 function App() {
   return (
     // Provedor do carrinho de compras para gerenciar os estados do carrinho globalmente

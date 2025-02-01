@@ -18,12 +18,7 @@ interface Product {
   reviews: Array<{ rating: number }>;
 }
 
-/**
- * Componente  Search:
- * - Permite buscar produtos pelo nome
- * - Exibe os produtos populares
- * - Redireciona para a página de detalhes do produto ao clicar em um item
- */
+
 const Search: React.FC = () => {
   // Estado para armazenar o termo de busca
   const [searchTerm, setSearchTerm] = useState(""); 
@@ -137,5 +132,4 @@ const Search: React.FC = () => {
   );
 };
 
-// Exporta o componente para ser utilizado em outras partes do projeto
 export default Search;

@@ -13,12 +13,7 @@ import statusBarImage from "../assets/Status Bar.png";
 import { signInWithEmailAndPassword } from "firebase/auth"; // Login com email e senha
 import { auth, signInWithGoogle } from "../firebase"; // Importação das funções de autenticação do Firebase
 
-/**
- * Componente SignIn:
- * - Permite o usuário entrar na plataforma com email/senha ou Google
- * - Inclui funcionalidade para redirecionar para a tela de cadastro
- * - Possui alerta para funcionalidade de "Esqueci minha senha"
- */
+
 const SignIn: React.FC = () => {
   // Estados para armazenar email e senha digitados pelo usuário
   const [email, setEmail] = useState("");
@@ -126,5 +121,5 @@ const SignIn: React.FC = () => {
   );
 };
 
-// Exporta o componente para ser utilizado em outras partes do projeto
+
 export default SignIn;

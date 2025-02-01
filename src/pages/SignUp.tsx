@@ -12,12 +12,7 @@ import statusBarImage from "../assets/Status Bar.png";
 import { createUserWithEmailAndPassword } from "firebase/auth"; // Função para criar conta com email e senha
 import { auth, signInWithGoogle } from "../firebase"; // Importação das funções de autenticação
 
-/**
-  Componente SignUp:
- * - Permite o usuário criar uma conta com email/senha ou Google
- * - Valida se as senhas digitadas coincidem antes do cadastro
- * - Redireciona para a tela de login após um cadastro bem-sucedido
- */
+
 const SignUp: React.FC = () => {
   // Estados para armazenar email, senha e confirmação de senha
   const [email, setEmail] = useState("");
@@ -131,5 +126,5 @@ const SignUp: React.FC = () => {
   );
 };
 
-// Exporta o componente para ser utilizado em outras partes do projeto
+
 export default SignUp;

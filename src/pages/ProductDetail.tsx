@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom"; // Hooks para navegação e obtenção de parâmetros da URL
 import axios from "axios"; // Biblioteca para requisições HTTP
 import { useCart } from "../context/CartContext"; // Hook para manipulação do carrinho
-import CartIcon from "../pages/CartIcon"; // Ícone do carrinho
+import CartIcon from "../pages/CartIcon"; 
 import styles from "../styles/ProductDetail.module.css"; // Importação dos estilos CSS
 
 // Importação de imagens usadas na interface
@@ -37,13 +37,7 @@ interface Product {
   reviews: Review[];
 }
 
-/**
- * Componente  ProductDetail:
- * - Exibe os detalhes de um produto específico
- * - Mostra avaliações feitas pelos usuários
- * - Permite adicionar o produto ao carrinho
- * - Lista produtos recomendados
- */
+
 const ProductDetail: React.FC = () => {
   const { productId } = useParams<{ productId: string }>(); // Obtém o ID do produto via URL
   const navigate = useNavigate(); // Hook para navegação
@@ -179,7 +173,6 @@ const ProductDetail: React.FC = () => {
   );
 };
 
-// Exporta o componente para ser utilizado em outras partes do projeto
 export default ProductDetail;
 
 
