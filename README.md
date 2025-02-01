@@ -81,7 +81,7 @@ Desafio-3---React.js
 │   ├── index.css          # Estilos globais
 │   ├── reportWebVitals.ts # Métricas de performance
 │   ├── setupTests.ts      # Configuração de testes
-│── .env                   # Variáveis de ambiente (chaves sensíveis)
+│x
 │── .gitignore             # Arquivos ignorados pelo Git
 │── package.json           # Dependências e scripts
 │── package-lock.json      # Lockfile do npm
