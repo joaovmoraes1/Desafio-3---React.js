@@ -1,6 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# 
 # Ignorar dependências do Node.js
 node_modules/
 .cache/
@@ -14,7 +11,8 @@ build/
 
 # production
 /build
-c# misc
+
+# misc
 .DS_Store
 .env.local
 .env.development.local
@@ -24,5 +22,3 @@ c# misc
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-node_modules
-node_modules
