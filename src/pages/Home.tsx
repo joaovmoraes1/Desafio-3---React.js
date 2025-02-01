@@ -126,4 +126,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home; // Exporta o componente para ser utilizado em outras partes do projeto
+export default Home; 

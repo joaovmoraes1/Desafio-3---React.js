@@ -13,12 +13,6 @@ import ButtonImage from "../assets/Button.png";
 // Ícones
 import { FiArrowLeft } from "react-icons/fi"; // Ícone de seta para voltar
 
-/**
- * Componente  Features:
- * - Exibe informações sobre os recursos de um produto
- * - Inclui imagens representativas do produto
- * - Possui botão para retornar à tela anterior
- */
 const Features: React.FC = () => {
   const navigate = useNavigate(); // Hook para navegação entre páginas
 
@@ -34,7 +28,7 @@ const Features: React.FC = () => {
           onClick={() => navigate(-1)} // Retorna para a tela anterior
           className={styles.backIcon} 
         />
-        <h1 className={styles.title}>Features</h1>
+       
         <CartIcon />
       </div>
 
@@ -60,5 +54,4 @@ const Features: React.FC = () => {
   );
 };
 
-// Exporta o componente para ser usado em outras partes do projeto
 export default Features;

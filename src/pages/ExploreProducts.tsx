@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import FilterScreen from "./FilterScreen"; // Componente para exibição dos filtros
-import { FiArrowLeft } from "react-icons/fi"; // Ícone de seta para voltar
-import CartIcon from "../pages/CartIcon"; // Ícone do carrinho
-import StatusBar from "../assets/Status Bar (1).png"; // Imagem da barra de status
-import FilterEmpty from "../assets/Filter Empty.png"; // Ícone do filtro
+import { FiArrowLeft } from "react-icons/fi"; 
+import CartIcon from "../pages/CartIcon"; 
+import StatusBar from "../assets/Status Bar (1).png";
+import FilterEmpty from "../assets/Filter Empty.png"; 
 import Frame41 from "../assets/Frame 41.png"; // Imagem do banner
 import styles from "../styles/ExploreProducts.module.css"; // Estilos do componente
 import { useNavigate } from "react-router-dom"; // Hook para navegação entre páginas
@@ -27,12 +27,7 @@ interface Product {
     category: string;
 }
 
-/**
- * Componente ExploreProducts:
- * - Exibe todos os produtos disponíveis
- * - Permite aplicar filtros por categoria e ordenação
- * - Redireciona para a tela de detalhes do produto ao clicar em um item
- */
+
 const ExploreProducts: React.FC = () => {
     // Estado para armazenar os produtos
     const [products, setProducts] = useState<Product[]>([]);
@@ -183,5 +178,5 @@ const ExploreProducts: React.FC = () => {
     );
 };
 
-// Exporta o componente para uso em outras partes do projeto
+
 export default ExploreProducts;

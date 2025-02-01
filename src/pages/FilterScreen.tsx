@@ -13,12 +13,7 @@ interface FilterScreenProps {
   applyFilter: () => void; // Função para aplicar os filtros selecionados
 }
 
-/**
- * Componente FilterScreen:
- * - Exibe um modal para seleção de filtros
- * - Permite filtrar produtos por categoria e ordenar por diferentes critérios
- * - Aplica os filtros ao clicar no botão "Apply Filter"
- */
+
 const FilterScreen: React.FC<FilterScreenProps> = ({
   isOpen,
   onClose,
@@ -107,5 +102,4 @@ const FilterScreen: React.FC<FilterScreenProps> = ({
   );
 };
 
-// Exporta o componente para uso em outras partes do projeto
 export default FilterScreen;
