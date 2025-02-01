@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["react", "jest", "node"], 
+    "types": ["react", "node"], 
     "strict": true,
     "jsx": "react-jsx",
     "target": "ES2018",

@@ -4,3 +4,4 @@ dist/
 build/
 *.log
 .DS_Store
+bfg-1.14.0.jar
