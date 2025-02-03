@@ -1,7 +1,7 @@
 import { useCart } from "../context/CartContext"; // Importa o hook useCart para acessar o contexto do carrinho
-import { AiOutlineShoppingCart } from "react-icons/ai"; // Importa o ícone do carrinho de compras
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useNavigate } from "react-router-dom"; // Importa o hook useNavigate para navegação entre páginas
-import styles from "../styles/CartIcon.module.css"; // Importa os estilos específicos do componente
+import styles from "../styles/CartIcon.module.css"; 
 
 const CartIcon = () => {
   // Obtém o número total de itens no carrinho do contexto global
@@ -24,5 +24,5 @@ const CartIcon = () => {
   );
 };
 
-// Exporta o componente para ser utilizado em outras partes do projeto
+
 export default CartIcon;

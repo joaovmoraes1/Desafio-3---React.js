@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Hook para navegação entre páginas
-import styles from "../styles/Search.module.css"; // Importação dos estilos CSS
+import styles from "../styles/Search.module.css"; 
 
 // Importação de imagens e ícones
 import StatusBarImage from "../assets/Status Bar (1).png";
 import { FiArrowLeft, FiMoreVertical } from "react-icons/fi"; // Ícones de navegação
 import { FaStar } from "react-icons/fa"; // Ícone de estrela para avaliação
-import CartIcon from "../pages/CartIcon"; // Ícone do carrinho de compras
+import CartIcon from "../pages/CartIcon"; 
 
 // Interface para representar um produto
 interface Product {

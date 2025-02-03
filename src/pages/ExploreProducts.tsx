@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import FilterScreen from "./FilterScreen"; // Componente para exibição dos filtros
+import FilterScreen from "./FilterScreen"; 
 import { FiArrowLeft } from "react-icons/fi"; 
 import CartIcon from "../pages/CartIcon"; 
 import StatusBar from "../assets/Status Bar (1).png";

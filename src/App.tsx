@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Importação do roteamento
-import { CartProvider } from "./context/CartContext"; // Provedor do carrinho de compras
+import { CartProvider } from "./context/CartContext"; 
 
 // Importação das páginas do aplicativo
 import SignIn from "./pages/SignIn";
@@ -29,7 +29,7 @@ function App() {
           <Route path="/features/:productId" element={<Features />} /> {/* Recursos do produto */}
           <Route path="/shopping-cart" element={<ShoppingCart />} /> {/* Carrinho de compras */}
 
-          {/* Rota coringa: Redireciona para SignIn caso a rota não seja encontrada */}
+          {/* Rota para Redireciona para SignIn caso a rota não seja encontrada */}
           <Route path="*" element={<SignIn />} />
         </Routes>
       </Router>
@@ -37,5 +37,4 @@ function App() {
   );
 }
 
-// Exporta o componente principal do aplicativo
 export default App;

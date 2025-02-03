@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Hook para navegação
-import CartIcon from "../pages/CartIcon"; // Ícone do carrinho de compras
-import styles from "../styles/Features.module.css"; // Importação dos estilos CSS
+import CartIcon from "../pages/CartIcon"; 
+import styles from "../styles/Features.module.css"; 
 
 // Importação de imagens utilizadas na interface
 import StatusBarImage from "../assets/Status Bar (1).png";

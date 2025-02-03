@@ -1,14 +1,14 @@
 import React from "react";
 import Modal from "react-modal"; // Biblioteca para exibição de modais
-import styles from "../styles/FilterScreen.module.css"; // Importa os estilos do componente
+import styles from "../styles/FilterScreen.module.css"; 
 
 // Tipagem das propriedades que o componente recebe
 interface FilterScreenProps {
-  isOpen: boolean; // Controla se o modal está aberto ou fechado
-  onClose: () => void; // Função para fechar o modal
-  category: string; // Categoria atualmente selecionada
-  setCategory: React.Dispatch<React.SetStateAction<string>>; // Função para atualizar a categoria selecionada
-  sortBy: string; // Critério de ordenação selecionado
+  isOpen: boolean; 
+  onClose: () => void; 
+  category: string; 
+  setCategory: React.Dispatch<React.SetStateAction<string>>; 
+  sortBy: string; 
   setSortBy: React.Dispatch<React.SetStateAction<string>>; // Função para atualizar a ordenação
   applyFilter: () => void; // Função para aplicar os filtros selecionados
 }
