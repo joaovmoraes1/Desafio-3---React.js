@@ -78,10 +78,9 @@ Desafio-3---React.js
 │   ├── App.tsx            # Componente principal
 │   ├── App.test.tsx       # Testes do App
 │   ├── index.tsx          # Ponto de entrada do React
-│   ├── index.css          # Estilos globais
 │   ├── reportWebVitals.ts # Métricas de performance
 │   ├── setupTests.ts      # Configuração de testes
-│x
+│
 │── .gitignore             # Arquivos ignorados pelo Git
 │── package.json           # Dependências e scripts
 │── package-lock.json      # Lockfile do npm

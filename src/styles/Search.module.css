@@ -27,7 +27,7 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-    color: #000; /* Define a cor preta */
+    color: #000; 
   }
   
   .searchInput {

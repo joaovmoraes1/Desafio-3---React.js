@@ -1,14 +1,20 @@
 import { createGlobalStyle } from "styled-components";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const GlobalStyles = createGlobalStyle`
+  /* Reset global */
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
 
+  /* Estilização do Body */
   body {
-    font-family: 'Arial', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
     background-color: #f5f5f5;
     color: #333;
     -webkit-font-smoothing: antialiased;
@@ -19,6 +25,7 @@ const GlobalStyles = createGlobalStyle`
     align-items: center;
   }
 
+  /* Estilização de Títulos e Textos */
   h1 {
     font-size: 2rem;
     color: #ffffff;
@@ -32,6 +39,7 @@ const GlobalStyles = createGlobalStyle`
     margin-bottom: 20px;
   }
 
+  /* Inputs */
   input {
     width: 100%;
     padding: 10px;
@@ -41,6 +49,7 @@ const GlobalStyles = createGlobalStyle`
     font-size: 1rem;
   }
 
+  /* Botões */
   button {
     width: 100%;
     padding: 10px;
@@ -58,6 +67,7 @@ const GlobalStyles = createGlobalStyle`
     background-color: #218838;
   }
 
+  /* Containers de Login e Cadastro */
   .signup-container, .login-container {
     width: 90%;
     max-width: 400px;
@@ -68,29 +78,18 @@ const GlobalStyles = createGlobalStyle`
     text-align: center;
   }
 
-  /* Global Styles */
-* {
-  box-sizing: border-box;
-}
+  /* Imagens responsivas */
+  @media (max-width: 375px) {
+    img {
+      max-width: 100%;
+      height: auto;
+    }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-}
-
-@media (max-width: 375px) {
-  img {
-    max-width: 100%;
-    height: auto;
+    button {
+      width: auto;
+      height: auto;
+    }
   }
-
-  button {
-    width: auto;
-    height: auto;
-  }
-}
-
 `;
 
 export default GlobalStyles;
