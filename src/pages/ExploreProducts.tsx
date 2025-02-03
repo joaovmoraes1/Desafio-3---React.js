@@ -27,25 +27,21 @@ interface Product {
     category: string;
 }
 
-
 const ExploreProducts: React.FC = () => {
-    // Estado para armazenar os produtos
+    // Estado para armazenar todos os produtos
     const [products, setProducts] = useState<Product[]>([]);
     // Estado para armazenar os produtos filtrados
     const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-    // Estado para controlar a exibição da tela de filtros
+    // Estado para controlar se a tela de filtro está aberta
     const [isFilterOpen, setFilterOpen] = useState(false);
-    // Estado para armazenar a categoria do filtro
+    // Estado para armazenar a categoria selecionada no filtro
     const [category, setCategory] = useState<string>("");
-    // Estado para armazenar o critério de ordenação
+    // Estado para armazenar a opção de ordenação selecionada
     const [sortBy, setSortBy] = useState<string>("");
 
-    // Hook para navegação entre páginas
-    const navigate = useNavigate();
+    const navigate = useNavigate(); // Hook para navegação
 
-    /**
-     * Busca os produtos da API ao carregar o componente
-     */
+    // Busca os produtos da API ao carregar a página
     useEffect(() => {
         const fetchProducts = async () => {
             try {
@@ -54,7 +50,7 @@ const ExploreProducts: React.FC = () => {
                 );
                 const data = await response.json();
                 setProducts(data);
-                setFilteredProducts(data);
+                setFilteredProducts(data); // Inicialmente exibe todos os produtos
             } catch (error) {
                 console.error("Erro ao buscar produtos:", error);
             }
@@ -63,9 +59,7 @@ const ExploreProducts: React.FC = () => {
         fetchProducts();
     }, []);
 
-    /**
-     * Aplica os filtros e ordenação selecionados aos produtos
-     */
+    // Função para aplicar os filtros e ordenações nos produtos
     const applyFilter = () => {
         let filtered = [...products];
 
@@ -74,7 +68,7 @@ const ExploreProducts: React.FC = () => {
             filtered = filtered.filter((product) => product.category === category);
         }
 
-        // Ordena os produtos conforme a opção selecionada
+        // Ordenação dos produtos conforme a opção selecionada
         if (sortBy === "popularity") {
             filtered.sort((a, b) => b.reviews.length - a.reviews.length);
         } else if (sortBy === "newest") {
@@ -87,16 +81,13 @@ const ExploreProducts: React.FC = () => {
             filtered.sort((a, b) => a.price - b.price);
         }
 
-        // Atualiza a lista de produtos filtrados e fecha a tela de filtro
         setFilteredProducts(filtered);
-        setFilterOpen(false);
+        setFilterOpen(false); // Fecha a tela de filtro após aplicação
     };
 
-    /**
-     * Função para voltar à página de pesquisa
-     */
+    // Função para voltar à página anterior
     const handleGoBack = () => {
-        navigate("/search"); // Redireciona para a página de busca
+        navigate("/search");
     };
 
     return (
@@ -120,7 +111,7 @@ const ExploreProducts: React.FC = () => {
                 </div>
             </div>
 
-            {/* Lista de produtos exibidos */}
+            {/* Lista de produtos disponíveis */}
             <div className={styles.productsGrid}>
                 {filteredProducts.map((product) => {
                     // Calcula a média das avaliações do produto
@@ -129,21 +120,19 @@ const ExploreProducts: React.FC = () => {
                             product.reviews.length || 0;
 
                     return (
-                        <div key={product.id} className={styles.productCard}>
-                            {/* Imagem do produto */}
+                        <div 
+                            key={product.id} 
+                            className={styles.productCard} 
+                            onClick={() => navigate(`/product/${product.id}`)} // Redireciona para detalhes do produto
+                        >
                             <img
                                 src={product.img}
                                 alt={product.name}
                                 className={styles.productImage}
                             />
-                            {/* Nome do produto */}
                             <h4 className={styles.productName}>{product.name}</h4>
-                            {/* Preço do produto */}
                             <p className={styles.productPrice}>USD {product.price.toFixed(2)}</p>
-                            
-                            {/* Seção de avaliações */}
                             <div className={styles.rating}>
-                                {/* Estrelas da avaliação */}
                                 <span className={styles.ratingStars}>
                                     {Array.from({ length: 5 }, (_, index) => (
                                         <span
@@ -154,7 +143,6 @@ const ExploreProducts: React.FC = () => {
                                         </span>
                                     ))}
                                 </span>
-                                {/* Número de reviews */}
                                 <span className={styles.reviewCount}>
                                     {product.reviews.length} Reviews
                                 </span>
@@ -164,7 +152,7 @@ const ExploreProducts: React.FC = () => {
                 })}
             </div>
 
-            {/* Tela de filtro, aparece quando ativada */}
+            {/* Tela de filtro */}
             <FilterScreen
                 isOpen={isFilterOpen}
                 onClose={() => setFilterOpen(false)}
@@ -177,6 +165,5 @@ const ExploreProducts: React.FC = () => {
         </div>
     );
 };
-
 
 export default ExploreProducts;

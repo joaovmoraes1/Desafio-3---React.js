@@ -40,10 +40,10 @@
   font-weight: bold;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start; /* Changed from center to flex-start */
+  align-items: flex-start;
   margin-bottom: 20px;
   color: #333;
-  position: relative; /* Keep relative for positioning context */
+  position: relative; 
 }
 
 .title h2 {
@@ -64,7 +64,7 @@
   position: absolute;
   top: -10;
   left: 160px;
-  align-self: flex-start; /*  Align self at the start to align to top */
+  align-self: flex-start;
 }
 
 .filterSection {
