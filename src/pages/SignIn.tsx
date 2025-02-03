@@ -5,7 +5,7 @@ import styles from "../styles/SignIn.module.css";
 // Importação de imagens utilizadas no design
 import bgImage from "../assets/background.jpg"; 
 import forgotPasswordImage from "../assets/Forgot Password.png"; 
-import googleButtonImage from "../assets/Sing up with Google.png"; 
+import googleButtonImage from "../assets/Sign in Google.png"; 
 import signUpHereImage from "../assets/Sign Up here.png";
 import statusBarImage from "../assets/Status Bar.png"; 
 
