@@ -94,7 +94,12 @@ const ShoppingCart: React.FC = () => {
         </div>
 
         {/* Botão para finalizar compra */}
-        <button onClick={() => navigate("/checkout")} className={styles.checkoutButton}>
+        <button
+          onClick={() => {
+            alert("Concluído!");
+          }}
+          className={styles.checkoutButton}
+        >
           Proceed to Checkout
         </button>
       </div>
